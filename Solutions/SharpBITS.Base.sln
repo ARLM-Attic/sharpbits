@@ -7,16 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Console", "..\Sha
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 1
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs05.codeplex.com/
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = ..\\SharpBITS.Base\\SharpBITS.Base.csproj
-		SccProjectName1 = ../SharpBITS.Base/SharpBITS.Base
-		SccLocalPath1 = ..\\SharpBITS.Base
-		SccProjectUniqueName2 = ..\\SharpBits.Console\\SharpBITS.Console.csproj
-		SccProjectName2 = ../SharpBits.Console/SharpBits.Console
-		SccLocalPath2 = ..\\SharpBits.Console
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
