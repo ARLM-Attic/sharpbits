@@ -1,5 +1,0 @@
-bin\Debug\SharpBITS.Base.dll
-bin\Debug\SharpBITS.Base.pdb
-obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\SharpBITS.Base.dll
-obj\Debug\SharpBITS.Base.pdb
