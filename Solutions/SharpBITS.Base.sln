@@ -1,30 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Base", "..\SharpBITS.Base\SharpBITS.Base.csproj", "{B39FDB92-7420-487E-8B44-D9BC0B88D857}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Console", "..\SharpBits.Console\SharpBITS.Console.csproj", "{F433606D-8C1F-4493-8C56-B180B86735CA}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 1
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs05.codeplex.com/
 		SccLocalPath0 = .
-	EndGlobalSection
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B39FDB92-7420-487E-8B44-D9BC0B88D857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B39FDB92-7420-487E-8B44-D9BC0B88D857}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B39FDB92-7420-487E-8B44-D9BC0B88D857}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B39FDB92-7420-487E-8B44-D9BC0B88D857}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F433606D-8C1F-4493-8C56-B180B86735CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F433606D-8C1F-4493-8C56-B180B86735CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F433606D-8C1F-4493-8C56-B180B86735CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F433606D-8C1F-4493-8C56-B180B86735CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
