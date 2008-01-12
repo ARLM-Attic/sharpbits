@@ -10,7 +10,6 @@ namespace SharpBits.Base
     {
         #region member fields
         private IBackgroundCopyJob job;
-        private IBackgroundCopyJob3 job3;
         private BitsManager manager;
         private bool disposed;
 
@@ -223,11 +222,11 @@ namespace SharpBits.Base
             get { return this.files; }
         }
 
-        public uint ErrorCount
+        public ulong ErrorCount
         {
             get
             {
-                uint count = 0;
+                ulong count = 0;
                 try
                 {
                     this.job.GetErrorCount(out count);

@@ -49,6 +49,17 @@ namespace SharpBits.Base
         DisableAAA = 0x1000
     }
 
+    public enum BitsVersion
+    {
+        Bits0_0,     //undefinied
+        Bits1_0,
+        Bits1_2,
+        Bits1_5,
+        Bits2_0,
+        Bits2_5,
+        Bits3_0,
+    }
+
     static class NativeMethods
     {
         [DllImport("advapi32.dll", CharSet = CharSet.Auto)]
@@ -79,6 +90,13 @@ namespace SharpBits.Base
 
     internal static class Utils
     {
+        static BitsVersion version;
+
+        static  Utils()
+        {
+            version = GetBitsVersion();
+        }
+
         internal static string GetName(string SID)
         {
             const int size = 255;
@@ -129,24 +147,24 @@ namespace SharpBits.Base
         /// 7.0.xxxx = BITS 3.0
         /// </summary>
         /// <returns></returns>
-        internal static string BITSVersion()
+        private static BitsVersion GetBitsVersion()
         {
             try
             {
                 string fileName = System.IO.Path.Combine(System.Environment.SystemDirectory, "qmgr.dll");
                 int handle = 0;
                 int size = NativeMethods.GetFileVersionInfoSize(fileName, out handle);
-                if (size == 0) return "0";
+                if (size == 0) return BitsVersion.Bits0_0;
                 byte[] buffer = new byte[size];
                 if (!NativeMethods.GetFileVersionInfo(fileName, handle, size, buffer))
                 {
-                    return "0";
+                    return BitsVersion.Bits0_0;
                 }
                 IntPtr subBlock = IntPtr.Zero;
                 uint len = 0;
                 if (!NativeMethods.VerQueryValue(buffer, @"\VarFileInfo\Translation", out subBlock, out len))
                 {
-                    return "0";
+                    return BitsVersion.Bits0_0;
                 }
 
                 int block1 = Marshal.ReadInt16(subBlock);
@@ -156,13 +174,13 @@ namespace SharpBits.Base
                 string versionInfo;
                 if (!NativeMethods.VerQueryValue(buffer, spv, out versionInfo, out len))
                 {
-                    return "0";
+                    return BitsVersion.Bits0_0;
                 }
                 
                 string[] versionNumbers = versionInfo.Split('.');
 
                 if (versionNumbers == null || versionNumbers.Length < 2)
-                    return "0";
+                    return BitsVersion.Bits0_0;
 
                 int major = int.Parse(versionNumbers[0]);
                 int minor = int.Parse(versionNumbers[1]);
@@ -173,27 +191,35 @@ namespace SharpBits.Base
                         switch(minor)
                         {
                             case 0:
-                                return "1.0";
+                                return BitsVersion.Bits1_0;
                             case 2:
-                                return "1.2";
+                                return BitsVersion.Bits1_2;
                             case 5:
-                                return "1.5";
+                                return BitsVersion.Bits1_5;
                             case 6:
-                                return "2.0";
+                                return BitsVersion.Bits2_0;
                             case 7:
-                                return "2.5";
+                                return BitsVersion.Bits2_5;
                             default:
-                                return "0";
+                                return BitsVersion.Bits0_0;
                         }
                     case 7:
-                        return "3.0";
+                        return BitsVersion.Bits3_0;
                     default:
-                        return "0";
+                        return BitsVersion.Bits0_0;
                 }
             }
             catch
             {
-                return "0";
+                return BitsVersion.Bits0_0;
+            }
+        }
+
+        internal static BitsVersion BITSVersion
+        {
+            get
+            {
+                return version;
             }
         }
     }

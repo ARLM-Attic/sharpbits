@@ -213,11 +213,11 @@ namespace SharpBits.Base
         }
 
         #region util methods
-        public string BitsVersion
+        public BitsVersion BitsVersion
         {
             get
             {
-                return Utils.BITSVersion();
+                return Utils.BITSVersion;
             }
         }
 

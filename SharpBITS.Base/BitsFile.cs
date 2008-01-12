@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpBits.Base
 {
-    public class BitsFile : IDisposable
+    public partial class BitsFile : IDisposable
     {
         private IBackgroundCopyFile file;
         private FileProgress progress;
@@ -17,6 +17,7 @@ namespace SharpBits.Base
             if (null == file)
                 throw new ArgumentNullException("IBackgroundCopyFile");
             this.file = file;
+            this.file2 = file as IBackgroundCopyFile2;
             this.job = job;
         }
 
@@ -52,6 +53,24 @@ namespace SharpBits.Base
                     this.job.PublishException(exception);
                 }
                 return name;
+            }
+            set //supported in IBackgroundCopyFile2
+            {
+                try
+                {
+                    if (this.file2 != null)
+                    {
+                        this.file2.SetRemoteName(value);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("IBackgroundCopyFile2");
+                    }
+                }
+                catch (COMException exception)
+                {
+                    this.job.PublishException(exception);
+                }
             }
         }
 

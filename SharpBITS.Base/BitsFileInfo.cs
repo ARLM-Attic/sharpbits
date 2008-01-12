@@ -30,7 +30,6 @@ namespace SharpBits.Base
             get { return this.fileInfo.LocalName; }
         }
 
-
         internal BG_FILE_INFO _BG_FILE_INFO
         {
             get { return this.fileInfo; }

@@ -20,7 +20,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 
-
 namespace SharpBits.Base
 {
 	// InteropBits.cs
@@ -326,7 +325,7 @@ namespace SharpBits.Base
 		/// network failure or server unavailability
 		/// </summary>
 		/// <param name="Errors">Number of errors that occurred while BITS tried to transfer the job. The count increases when the job moves from the BG_JOB_STATE_TRANSFERRING state to the BG_JOB_STATE_TRANSIENT_ERROR or BG_JOB_STATE_ERROR state.</param>
-		void GetErrorCount(out uint Errors);
+		void GetErrorCount(out ulong Errors);
 		
 		/// <summary>
 		/// Specifies which proxy to use to transfer the files
@@ -358,61 +357,61 @@ namespace SharpBits.Base
 	[ComImport]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("54B50739-686F-45EB-9DFF-D6A9A0FAA9AF")]
-	internal interface IBackgroundCopyJob2 : IBackgroundCopyJob
+	internal interface IBackgroundCopyJob2
 	{
 		/// <summary>
 		/// Adds multiple files to the job
 		/// </summary>
 		/// <param name="cFileCount">Number of elements in paFileSet. </param>
 		/// <param name="pFileSet">Array of BG_FILE_INFO structures that identify the local and remote file names of the files to transfer.</param>
-        new void AddFileSet(uint cFileCount, [MarshalAs(UnmanagedType.LPArray)] BG_FILE_INFO[] pFileSet);
+        void AddFileSet(uint cFileCount, [MarshalAs(UnmanagedType.LPArray)] BG_FILE_INFO[] pFileSet);
 
 		/// <summary>
 		/// Adds a single file to the job
 		/// </summary>
 		/// <param name="LocalName">Null-terminated string that contains the name of the file on the server. For information on specifying the remote name, see the RemoteName member and Remarks section of the BG_FILE_INFO structure. </param>
 		/// <param name="RemoteUrl">Null-terminated string that contains the name of the file on the client. For information on specifying the local name, see the LocalName member and Remarks section of the BG_FILE_INFO structure. </param>
-		new void AddFile([MarshalAs(UnmanagedType.LPWStr)] string RemoteUrl, [MarshalAs(UnmanagedType.LPWStr)] string LocalName);
+		void AddFile([MarshalAs(UnmanagedType.LPWStr)] string RemoteUrl, [MarshalAs(UnmanagedType.LPWStr)] string LocalName);
 		
 		/// <summary>
 		/// Returns an interface pointer to an enumerator
 		/// object that you use to enumerate the files in the job
 		/// </summary>
 		/// <param name="pEnum">IEnumBackgroundCopyFiles interface pointer that you use to enumerate the files in the job. Release ppEnumFiles when done. </param>
-		new void EnumFiles([MarshalAs(UnmanagedType.Interface)] out IEnumBackgroundCopyFiles pEnum);
+		void EnumFiles([MarshalAs(UnmanagedType.Interface)] out IEnumBackgroundCopyFiles pEnum);
 		
 		/// <summary>
 		/// Pauses the job
 		/// </summary>
-		new void Suspend();
+		void Suspend();
 		
 		/// <summary>
 		/// Restarts a suspended job
 		/// </summary>
-		new void Resume();
+		void Resume();
 		
 		/// <summary>
 		/// Cancels the job and removes temporary files from the client
 		/// </summary>
-		new void Cancel();
+		void Cancel();
 		
 		/// <summary>
 		/// Ends the job and saves the transferred files on the client
 		/// </summary>
-		new void Complete();
+		void Complete();
 		
 		/// <summary>
 		/// Retrieves the identifier of the job in the queue
 		/// </summary>
 		/// <param name="pVal">GUID that identifies the job within the BITS queue.</param>
-		new void GetId(out Guid pVal);
+		void GetId(out Guid pVal);
 		
 		/// <summary>
 		/// Retrieves the type of transfer being performed, 
 		/// such as a file download
 		/// </summary>
 		/// <param name="pVal">Type of transfer being performed. For a list of transfer types, see the BG_JOB_TYPE enumeration type. </param>
-		new void GetType(out BG_JOB_TYPE pVal);
+		void GetType(out BG_JOB_TYPE pVal);
 		
 		/// <summary>
 		/// Retrieves job-related progress information, 
@@ -420,71 +419,71 @@ namespace SharpBits.Base
 		/// to the client
 		/// </summary>
 		/// <param name="pVal">Contains data that you can use to calculate the percentage of the job that is complete. For more information, see BG_JOB_PROGRESS. </param>
-		new void GetProgress(out BG_JOB_PROGRESS pVal);
+		void GetProgress(out BG_JOB_PROGRESS pVal);
 		
 		/// <summary>
 		/// Retrieves timestamps for activities related
 		/// to the job, such as the time the job was created
 		/// </summary>
 		/// <param name="pVal">Contains job-related time stamps. For available time stamps, see the BG_JOB_TIMES structure.</param>
-		new void GetTimes(out BG_JOB_TIMES pVal);
+		void GetTimes(out BG_JOB_TIMES pVal);
 		
 		/// <summary>
 		/// Retrieves the state of the job
 		/// </summary>
 		/// <param name="pVal">Current state of the job. For example, the state reflects whether the job is in error, transferring data, or suspended. For a list of job states, see the BG_JOB_STATE enumeration type. </param>
-		new void GetState(out BG_JOB_STATE pVal);
+		void GetState(out BG_JOB_STATE pVal);
 		
 		/// <summary>
 		/// Retrieves an interface pointer to 
 		/// the error object after an error occurs
 		/// </summary>
 		/// <param name="ppError">Error interface that provides the error code, a description of the error, and the context in which the error occurred. This parameter also identifies the file being transferred at the time the error occurred. Release ppError when done. </param>
-		new void GetError([MarshalAs(UnmanagedType.Interface)] out IBackgroundCopyError ppError);
+		void GetError([MarshalAs(UnmanagedType.Interface)] out IBackgroundCopyError ppError);
 		
 		/// <summary>
 		/// Retrieves the job owner's identity
 		/// </summary>
 		/// <param name="pVal">Null-terminated string that contains the string version of the SID that identifies the job's owner. Call the CoTaskMemFree function to free ppOwner when done. </param>
-		new void GetOwner([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		void GetOwner([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
 		
 		/// <summary>
 		/// Specifies a display name that identifies the job in 
 		/// a user interface
 		/// </summary>
 		/// <param name="Val">Null-terminated string that identifies the job. Must not be NULL. The length of the string is limited to 256 characters, not including the null terminator. </param>
-		new void SetDisplayName([MarshalAs(UnmanagedType.LPWStr)] string Val);
+		void SetDisplayName([MarshalAs(UnmanagedType.LPWStr)] string Val);
 		
 		/// <summary>
 		/// Retrieves the display name that identifies the job
 		/// </summary>
 		/// <param name="pVal">Null-terminated string that contains the display name that identifies the job. More than one job can have the same display name. Call the CoTaskMemFree function to free ppDisplayName when done.</param>
-		new void GetDisplayName([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		void GetDisplayName([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
 		
 		/// <summary>
 		/// Specifies a description of the job
 		/// </summary>
 		/// <param name="Val">Null-terminated string that provides additional information about the job. The length of the string is limited to 1,024 characters, not including the null terminator.</param>
-		new void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string Val);
+		void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string Val);
 		
 		/// <summary>
 		/// Retrieves the description of the job
 		/// </summary>
 		/// <param name="pVal">Null-terminated string that contains a short description of the job. Call the CoTaskMemFree function to free ppDescription when done. </param>
-		new void GetDescription([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		void GetDescription([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
 		
 		/// <summary>
 		/// Specifies the priority of the job relative to 
 		/// other jobs in the transfer queue
 		/// </summary>
 		/// <param name="Val">Specifies the priority level of your job relative to other jobs in the transfer queue. The default is BG_JOB_PRIORITY_NORMAL. For a list of priority levels, see the BG_JOB_PRIORITY enumeration. </param>
-		new void SetPriority(BG_JOB_PRIORITY Val);
+		void SetPriority(BG_JOB_PRIORITY Val);
 
 		/// <summary>
 		/// Retrieves the priority level you have set for the job.
 		/// </summary>
 		/// <param name="pVal">Priority of the job relative to other jobs in the transfer queue. </param>
-		new void GetPriority(out BG_JOB_PRIORITY pVal);
+		void GetPriority(out BG_JOB_PRIORITY pVal);
 		
 		/// <summary>
 		/// Specifies the type of event notification to receive
@@ -497,7 +496,7 @@ namespace SharpBits.Base
 		/// you have set for your application.
 		/// </summary>
 		/// <param name="pVal">Identifies the events that your application receives. The following table lists the event notification flag values. </param>
-		new void GetNotifyFlags(out uint pVal);
+		void GetNotifyFlags(out uint pVal);
 		
 		/// <summary>
 		/// Specifies a pointer to your implementation of the 
@@ -506,14 +505,14 @@ namespace SharpBits.Base
 		/// notification flags you set
 		/// </summary>
 		/// <param name="Val">An IBackgroundCopyCallback interface pointer. To remove the current callback interface pointer, set this parameter to NULL.</param>
-		new void SetNotifyInterface([MarshalAs(UnmanagedType.IUnknown)] object Val);
+		void SetNotifyInterface([MarshalAs(UnmanagedType.IUnknown)] object Val);
 		
 		/// <summary>
 		/// Retrieves a pointer to your implementation 
 		/// of the IBackgroundCopyCallback interface (callbacks).
 		/// </summary>
 		/// <param name="pVal">Interface pointer to your implementation of the IBackgroundCopyCallback interface. When done, release ppNotifyInterface.</param>
-		new void GetNotifyInterface([MarshalAs(UnmanagedType.IUnknown)] out object pVal);
+		void GetNotifyInterface([MarshalAs(UnmanagedType.IUnknown)] out object pVal);
 		
 		/// <summary>
 		/// Specifies the minimum length of time that BITS waits after 
@@ -521,7 +520,7 @@ namespace SharpBits.Base
 		/// transfer the file
 		/// </summary>
 		/// <param name="Seconds">Minimum length of time, in seconds, that BITS waits after encountering a transient error before trying to transfer the file. The default retry delay is 600 seconds (10 minutes). The minimum retry delay that you can specify is 60 seconds. If you specify a value less than 60 seconds, BITS changes the value to 60 seconds. If the value exceeds the no-progress-timeout value retrieved from the GetNoProgressTimeout method, BITS will not retry the transfer and moves the job to the BG_JOB_STATE_ERROR state. </param>
-		new void SetMinimumRetryDelay(uint Seconds);
+		void SetMinimumRetryDelay(uint Seconds);
 		
 		/// <summary>
 		/// Retrieves the minimum length of time that BITS waits after 
@@ -529,7 +528,7 @@ namespace SharpBits.Base
 		/// transfer the file
 		/// </summary>
 		/// <param name="Seconds">Length of time, in seconds, that the service waits after encountering a transient error before trying to transfer the file. </param>
-		new void GetMinimumRetryDelay(out uint Seconds);
+		void GetMinimumRetryDelay(out uint Seconds);
 		
 		/// <summary>
 		/// Specifies the length of time that BITS continues to try to 
@@ -537,21 +536,21 @@ namespace SharpBits.Base
 		/// condition
 		/// </summary>
 		/// <param name="Seconds">Length of time, in seconds, that BITS tries to transfer the file after the first transient error occurs. The default retry period is 1,209,600 seconds (14 days). Set the retry period to 0 to prevent retries and to force the job into the BG_JOB_STATE_ERROR state for all errors. If the retry period value exceeds the JobInactivityTimeout Group Policy value (90-day default), BITS cancels the job after the policy value is exceeded.</param>
-		new void SetNoProgressTimeout(uint Seconds);
+		void SetNoProgressTimeout(uint Seconds);
 		
 		/// <summary>
 		/// Retrieves the length of time that BITS continues to try to 
 		/// transfer the file after encountering a transient error condition
 		/// </summary>
 		/// <param name="Seconds">Length of time, in seconds, that the service tries to transfer the file after a transient error occurs. </param>
-		new void GetNoProgressTimeout(out uint Seconds);
+		void GetNoProgressTimeout(out uint Seconds);
 		
 		/// <summary>
 		/// Retrieves the number of times the job was interrupted by 
 		/// network failure or server unavailability
 		/// </summary>
 		/// <param name="Errors">Number of errors that occurred while BITS tried to transfer the job. The count increases when the job moves from the BG_JOB_STATE_TRANSFERRING state to the BG_JOB_STATE_TRANSIENT_ERROR or BG_JOB_STATE_ERROR state.</param>
-		new void GetErrorCount(out uint Errors);
+		void GetErrorCount(out ulong Errors);
 		
 		/// <summary>
 		/// Specifies which proxy to use to transfer the files
@@ -559,7 +558,7 @@ namespace SharpBits.Base
 		/// <param name="ProxyBypassList">Null-terminated string that contains an optional list of host names, IP addresses, or both, that can bypass the proxy. The list is space-delimited. For details on specifying a bypass proxy, see Remarks. This parameter must be NULL if the value of ProxyUsage is BG_JOB_PROXY_USAGE_PRECONFIG, BG_JOB_PROXY_USAGE_NO_PROXY, or BG_JOB_PROXY_USAGE_NO_AUTODETECT. The length of the proxy bypass list is limited to 4,000 characters, not including the null terminator. </param>
 		/// <param name="ProxyList">Null-terminated string that contains the proxies to use to transfer files. The list is space-delimited. For details on specifying a proxy, see Remarks. This parameter must be NULL if the value of ProxyUsage is BG_JOB_PROXY_USAGE_PRECONFIG, BG_JOB_PROXY_USAGE_NO_PROXY, or BG_JOB_PROXY_USAGE_NO_AUTODETECT. The length of the proxy list is limited to 4,000 characters, not including the null terminator. </param>
 		/// <param name="ProxyUsage">Specifies whether to use the user's proxy settings, not to use a proxy, or to use application-specified proxy settings. The default is to use the user's proxy settings, BG_JOB_PROXY_USAGE_PRECONFIG. For a list of proxy options, see the BG_JOB_PROXY_USAGE enumeration.</param>
-		new void SetProxySettings(BG_JOB_PROXY_USAGE ProxyUsage, [MarshalAs(UnmanagedType.LPWStr)] string ProxyList, [MarshalAs(UnmanagedType.LPWStr)] string ProxyBypassList);
+		void SetProxySettings(BG_JOB_PROXY_USAGE ProxyUsage, [MarshalAs(UnmanagedType.LPWStr)] string ProxyList, [MarshalAs(UnmanagedType.LPWStr)] string ProxyBypassList);
 		
 		/// <summary>
 		/// Retrieves the proxy settings the job uses to transfer the files
@@ -567,12 +566,12 @@ namespace SharpBits.Base
 		/// <param name="pProxyBypassList">Null-terminated string that contains an optional list of host names or IP addresses, or both, that were not routed through the proxy. The list is space-delimited. For details on the format of the string, see the Listing the Proxy Bypass section of Enabling Internet Functionality. Call the CoTaskMemFree function to free ppProxyBypassList when done.</param>
 		/// <param name="pProxyList">Null-terminated string that contains one or more proxies to use to transfer files. The list is space-delimited. For details on the format of the string, see the Listing Proxy Servers section of Enabling Internet Functionality. Call the CoTaskMemFree function to free ppProxyList when done.</param>
 		/// <param name="pProxyUsage">Specifies the proxy settings the job uses to transfer the files. For a list of proxy options, see the BG_JOB_PROXY_USAGE enumeration. </param>
-		new void GetProxySettings(out BG_JOB_PROXY_USAGE pProxyUsage, [MarshalAs(UnmanagedType.LPWStr)] out string pProxyList, [MarshalAs(UnmanagedType.LPWStr)] out string pProxyBypassList);
+		void GetProxySettings(out BG_JOB_PROXY_USAGE pProxyUsage, [MarshalAs(UnmanagedType.LPWStr)] out string pProxyList, [MarshalAs(UnmanagedType.LPWStr)] out string pProxyBypassList);
 		
 		/// <summary>
 		/// Changes the ownership of the job to the current user
 		/// </summary>
-		new void TakeOwnership();
+		void TakeOwnership();
 
 		/// <summary>
 		/// Use the SetNotifyCmdLine method to specify a program to execute if the job enters the BG_JOB_STATE_ERROR or BG_JOB_STATE_TRANSFERRED state. BITS executes the program in the context of the user.
@@ -635,15 +634,281 @@ namespace SharpBits.Base
 	[ComImport]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("443C8934-90FF-48ED-BCDE-26F5C7450042")]
-	internal interface IBackgroundCopyJob3 : IBackgroundCopyJob2
+	internal interface IBackgroundCopyJob3
 	{
+		/// <summary>
+		/// Adds multiple files to the job
+		/// </summary>
+		/// <param name="cFileCount">Number of elements in paFileSet. </param>
+		/// <param name="pFileSet">Array of BG_FILE_INFO structures that identify the local and remote file names of the files to transfer.</param>
+        void AddFileSet(uint cFileCount, [MarshalAs(UnmanagedType.LPArray)] BG_FILE_INFO[] pFileSet);
+
+		/// <summary>
+		/// Adds a single file to the job
+		/// </summary>
+		/// <param name="LocalName">Null-terminated string that contains the name of the file on the server. For information on specifying the remote name, see the RemoteName member and Remarks section of the BG_FILE_INFO structure. </param>
+		/// <param name="RemoteUrl">Null-terminated string that contains the name of the file on the client. For information on specifying the local name, see the LocalName member and Remarks section of the BG_FILE_INFO structure. </param>
+		void AddFile([MarshalAs(UnmanagedType.LPWStr)] string RemoteUrl, [MarshalAs(UnmanagedType.LPWStr)] string LocalName);
+		
+		/// <summary>
+		/// Returns an interface pointer to an enumerator
+		/// object that you use to enumerate the files in the job
+		/// </summary>
+		/// <param name="pEnum">IEnumBackgroundCopyFiles interface pointer that you use to enumerate the files in the job. Release ppEnumFiles when done. </param>
+		void EnumFiles([MarshalAs(UnmanagedType.Interface)] out IEnumBackgroundCopyFiles pEnum);
+		
+		/// <summary>
+		/// Pauses the job
+		/// </summary>
+		void Suspend();
+		
+		/// <summary>
+		/// Restarts a suspended job
+		/// </summary>
+		void Resume();
+		
+		/// <summary>
+		/// Cancels the job and removes temporary files from the client
+		/// </summary>
+		void Cancel();
+		
+		/// <summary>
+		/// Ends the job and saves the transferred files on the client
+		/// </summary>
+		void Complete();
+		
+		/// <summary>
+		/// Retrieves the identifier of the job in the queue
+		/// </summary>
+		/// <param name="pVal">GUID that identifies the job within the BITS queue.</param>
+		void GetId(out Guid pVal);
+		
+		/// <summary>
+		/// Retrieves the type of transfer being performed, 
+		/// such as a file download
+		/// </summary>
+		/// <param name="pVal">Type of transfer being performed. For a list of transfer types, see the BG_JOB_TYPE enumeration type. </param>
+		void GetType(out BG_JOB_TYPE pVal);
+		
+		/// <summary>
+		/// Retrieves job-related progress information, 
+		/// such as the number of bytes and files transferred 
+		/// to the client
+		/// </summary>
+		/// <param name="pVal">Contains data that you can use to calculate the percentage of the job that is complete. For more information, see BG_JOB_PROGRESS. </param>
+		void GetProgress(out BG_JOB_PROGRESS pVal);
+		
+		/// <summary>
+		/// Retrieves timestamps for activities related
+		/// to the job, such as the time the job was created
+		/// </summary>
+		/// <param name="pVal">Contains job-related time stamps. For available time stamps, see the BG_JOB_TIMES structure.</param>
+		void GetTimes(out BG_JOB_TIMES pVal);
+		
+		/// <summary>
+		/// Retrieves the state of the job
+		/// </summary>
+		/// <param name="pVal">Current state of the job. For example, the state reflects whether the job is in error, transferring data, or suspended. For a list of job states, see the BG_JOB_STATE enumeration type. </param>
+		void GetState(out BG_JOB_STATE pVal);
+		
+		/// <summary>
+		/// Retrieves an interface pointer to 
+		/// the error object after an error occurs
+		/// </summary>
+		/// <param name="ppError">Error interface that provides the error code, a description of the error, and the context in which the error occurred. This parameter also identifies the file being transferred at the time the error occurred. Release ppError when done. </param>
+		void GetError([MarshalAs(UnmanagedType.Interface)] out IBackgroundCopyError ppError);
+		
+		/// <summary>
+		/// Retrieves the job owner's identity
+		/// </summary>
+		/// <param name="pVal">Null-terminated string that contains the string version of the SID that identifies the job's owner. Call the CoTaskMemFree function to free ppOwner when done. </param>
+		void GetOwner([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		
+		/// <summary>
+		/// Specifies a display name that identifies the job in 
+		/// a user interface
+		/// </summary>
+		/// <param name="Val">Null-terminated string that identifies the job. Must not be NULL. The length of the string is limited to 256 characters, not including the null terminator. </param>
+		void SetDisplayName([MarshalAs(UnmanagedType.LPWStr)] string Val);
+		
+		/// <summary>
+		/// Retrieves the display name that identifies the job
+		/// </summary>
+		/// <param name="pVal">Null-terminated string that contains the display name that identifies the job. More than one job can have the same display name. Call the CoTaskMemFree function to free ppDisplayName when done.</param>
+		void GetDisplayName([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		
+		/// <summary>
+		/// Specifies a description of the job
+		/// </summary>
+		/// <param name="Val">Null-terminated string that provides additional information about the job. The length of the string is limited to 1,024 characters, not including the null terminator.</param>
+		void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string Val);
+		
+		/// <summary>
+		/// Retrieves the description of the job
+		/// </summary>
+		/// <param name="pVal">Null-terminated string that contains a short description of the job. Call the CoTaskMemFree function to free ppDescription when done. </param>
+		void GetDescription([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		
+		/// <summary>
+		/// Specifies the priority of the job relative to 
+		/// other jobs in the transfer queue
+		/// </summary>
+		/// <param name="Val">Specifies the priority level of your job relative to other jobs in the transfer queue. The default is BG_JOB_PRIORITY_NORMAL. For a list of priority levels, see the BG_JOB_PRIORITY enumeration. </param>
+		void SetPriority(BG_JOB_PRIORITY Val);
+
+		/// <summary>
+		/// Retrieves the priority level you have set for the job.
+		/// </summary>
+		/// <param name="pVal">Priority of the job relative to other jobs in the transfer queue. </param>
+		void GetPriority(out BG_JOB_PRIORITY pVal);
+		
+		/// <summary>
+		/// Specifies the type of event notification to receive
+		/// </summary>
+		/// <param name="Val">Set one or more of the following flags to identify the events that you want to receive. </param>
+		void SetNotifyFlags([MarshalAs(UnmanagedType.U4)] BG_JOB_NOTIFICATION_TYPE Val);
+		
+		/// <summary>
+		/// Retrieves the event notification (callback) flags 
+		/// you have set for your application.
+		/// </summary>
+		/// <param name="pVal">Identifies the events that your application receives. The following table lists the event notification flag values. </param>
+		void GetNotifyFlags(out uint pVal);
+		
+		/// <summary>
+		/// Specifies a pointer to your implementation of the 
+		/// IBackgroundCopyCallback interface (callbacks). The 
+		/// interface receives notification based on the event 
+		/// notification flags you set
+		/// </summary>
+		/// <param name="Val">An IBackgroundCopyCallback interface pointer. To remove the current callback interface pointer, set this parameter to NULL.</param>
+		void SetNotifyInterface([MarshalAs(UnmanagedType.IUnknown)] object Val);
+		
+		/// <summary>
+		/// Retrieves a pointer to your implementation 
+		/// of the IBackgroundCopyCallback interface (callbacks).
+		/// </summary>
+		/// <param name="pVal">Interface pointer to your implementation of the IBackgroundCopyCallback interface. When done, release ppNotifyInterface.</param>
+		void GetNotifyInterface([MarshalAs(UnmanagedType.IUnknown)] out object pVal);
+		
+		/// <summary>
+		/// Specifies the minimum length of time that BITS waits after 
+		/// encountering a transient error condition before trying to 
+		/// transfer the file
+		/// </summary>
+		/// <param name="Seconds">Minimum length of time, in seconds, that BITS waits after encountering a transient error before trying to transfer the file. The default retry delay is 600 seconds (10 minutes). The minimum retry delay that you can specify is 60 seconds. If you specify a value less than 60 seconds, BITS changes the value to 60 seconds. If the value exceeds the no-progress-timeout value retrieved from the GetNoProgressTimeout method, BITS will not retry the transfer and moves the job to the BG_JOB_STATE_ERROR state. </param>
+		void SetMinimumRetryDelay(uint Seconds);
+		
+		/// <summary>
+		/// Retrieves the minimum length of time that BITS waits after 
+		/// encountering a transient error condition before trying to 
+		/// transfer the file
+		/// </summary>
+		/// <param name="Seconds">Length of time, in seconds, that the service waits after encountering a transient error before trying to transfer the file. </param>
+		void GetMinimumRetryDelay(out uint Seconds);
+		
+		/// <summary>
+		/// Specifies the length of time that BITS continues to try to 
+		/// transfer the file after encountering a transient error 
+		/// condition
+		/// </summary>
+		/// <param name="Seconds">Length of time, in seconds, that BITS tries to transfer the file after the first transient error occurs. The default retry period is 1,209,600 seconds (14 days). Set the retry period to 0 to prevent retries and to force the job into the BG_JOB_STATE_ERROR state for all errors. If the retry period value exceeds the JobInactivityTimeout Group Policy value (90-day default), BITS cancels the job after the policy value is exceeded.</param>
+		void SetNoProgressTimeout(uint Seconds);
+		
+		/// <summary>
+		/// Retrieves the length of time that BITS continues to try to 
+		/// transfer the file after encountering a transient error condition
+		/// </summary>
+		/// <param name="Seconds">Length of time, in seconds, that the service tries to transfer the file after a transient error occurs. </param>
+		void GetNoProgressTimeout(out uint Seconds);
+		
+		/// <summary>
+		/// Retrieves the number of times the job was interrupted by 
+		/// network failure or server unavailability
+		/// </summary>
+		/// <param name="Errors">Number of errors that occurred while BITS tried to transfer the job. The count increases when the job moves from the BG_JOB_STATE_TRANSFERRING state to the BG_JOB_STATE_TRANSIENT_ERROR or BG_JOB_STATE_ERROR state.</param>
+		void GetErrorCount(out ulong Errors);
+		
+		/// <summary>
+		/// Specifies which proxy to use to transfer the files
+		/// </summary>
+		/// <param name="ProxyBypassList">Null-terminated string that contains an optional list of host names, IP addresses, or both, that can bypass the proxy. The list is space-delimited. For details on specifying a bypass proxy, see Remarks. This parameter must be NULL if the value of ProxyUsage is BG_JOB_PROXY_USAGE_PRECONFIG, BG_JOB_PROXY_USAGE_NO_PROXY, or BG_JOB_PROXY_USAGE_NO_AUTODETECT. The length of the proxy bypass list is limited to 4,000 characters, not including the null terminator. </param>
+		/// <param name="ProxyList">Null-terminated string that contains the proxies to use to transfer files. The list is space-delimited. For details on specifying a proxy, see Remarks. This parameter must be NULL if the value of ProxyUsage is BG_JOB_PROXY_USAGE_PRECONFIG, BG_JOB_PROXY_USAGE_NO_PROXY, or BG_JOB_PROXY_USAGE_NO_AUTODETECT. The length of the proxy list is limited to 4,000 characters, not including the null terminator. </param>
+		/// <param name="ProxyUsage">Specifies whether to use the user's proxy settings, not to use a proxy, or to use application-specified proxy settings. The default is to use the user's proxy settings, BG_JOB_PROXY_USAGE_PRECONFIG. For a list of proxy options, see the BG_JOB_PROXY_USAGE enumeration.</param>
+		void SetProxySettings(BG_JOB_PROXY_USAGE ProxyUsage, [MarshalAs(UnmanagedType.LPWStr)] string ProxyList, [MarshalAs(UnmanagedType.LPWStr)] string ProxyBypassList);
+		
+		/// <summary>
+		/// Retrieves the proxy settings the job uses to transfer the files
+		/// </summary>
+		/// <param name="pProxyBypassList">Null-terminated string that contains an optional list of host names or IP addresses, or both, that were not routed through the proxy. The list is space-delimited. For details on the format of the string, see the Listing the Proxy Bypass section of Enabling Internet Functionality. Call the CoTaskMemFree function to free ppProxyBypassList when done.</param>
+		/// <param name="pProxyList">Null-terminated string that contains one or more proxies to use to transfer files. The list is space-delimited. For details on the format of the string, see the Listing Proxy Servers section of Enabling Internet Functionality. Call the CoTaskMemFree function to free ppProxyList when done.</param>
+		/// <param name="pProxyUsage">Specifies the proxy settings the job uses to transfer the files. For a list of proxy options, see the BG_JOB_PROXY_USAGE enumeration. </param>
+		void GetProxySettings(out BG_JOB_PROXY_USAGE pProxyUsage, [MarshalAs(UnmanagedType.LPWStr)] out string pProxyList, [MarshalAs(UnmanagedType.LPWStr)] out string pProxyBypassList);
+		
+		/// <summary>
+		/// Changes the ownership of the job to the current user
+		/// </summary>
+		void TakeOwnership();
+
+		/// <summary>
+		/// Use the SetNotifyCmdLine method to specify a program to execute if the job enters the BG_JOB_STATE_ERROR or BG_JOB_STATE_TRANSFERRED state. BITS executes the program in the context of the user.
+		/// </summary>
+		/// <param name="Program">Null-terminated string that contains the program to execute. The pProgram parameter is limited to MAX_PATH characters, not including the null terminator. You should specify a full path to the program; the method will not use the search path to locate the program. To remove command line notification, set pProgram and pParameters to NULL. The method fails if pProgram is NULL and pParameters is non-NULL. </param>
+		/// <param name="Parameters">Null-terminated string that contains the parameters of the program in pProgram. The first parameter must be the program in pProgram (use quotes if the path uses long file names). The pParameters parameter is limited to 4,000 characters, not including the null terminator. This parameter can be NULL.</param>
+		void SetNotifyCmdLine([MarshalAs(UnmanagedType.LPWStr)] string Program, [MarshalAs(UnmanagedType.LPWStr)] string Parameters);
+
+		/// <summary>
+		/// Use the GetNotifyCmdLine method to retrieve the program to execute when the job enters the error or transferred state.
+		/// </summary>
+		/// <param name="pProgram">Null-terminated string that contains the program to execute when the job enters the error or transferred state. Call the CoTaskMemFree function to free pProgram when done. </param>
+		/// <param name="pParameters">Null-terminated string that contains the arguments of the program in pProgram. Call the CoTaskMemFree function to free pParameters when done. </param>
+		void GetNotifyCmdLine([MarshalAs(UnmanagedType.LPWStr)] out string pProgram, [MarshalAs(UnmanagedType.LPWStr)] out string pParameters);
+
+		/// <summary>
+		/// Use the GetReplyProgress method to retrieve progress information related to the transfer of the reply data from an upload-reply job.
+		/// </summary>
+		/// <param name="pProgress">Contains information that you use to calculate the percentage of the reply file transfer that is complete. For more information, see BG_JOB_REPLY_PROGRESS.</param>
+		void GetReplyProgress([Out] out BG_JOB_REPLY_PROGRESS pProgress);
+
+		/// <summary>
+		/// Use the GetReplyData method to retrieve an in-memory copy of the reply data from the server application. Only call this method if the job's type is BG_JOB_TYPE_UPLOAD_REPLY and its state is BG_JOB_STATE_TRANSFERRED.
+		/// </summary>
+		/// <param name="ppBuffer">Buffer to contain the reply data. The method sets ppBuffer to NULL if the server application did not return a reply. Call the CoTaskMemFree function to free ppBuffer when done.</param>
+		/// <param name="pLength">Size, in bytes, of the reply data in ppBuffer.</param>
+		void GetReplyData(IntPtr ppBuffer, out ulong pLength);
+
+		/// <summary>
+		/// Use the SetReplyFileName method to specify the name of the file to contain the reply data from the server application. Only call this method if the job's type is BG_JOB_TYPE_UPLOAD_REPLY.
+		/// </summary>
+		/// <param name="ReplyFileName">Null-terminated string that contains the full path to the reply file. BITS generates the file name if ReplyFileNamePathSpec is NULL or an empty string. You cannot use wildcards in the path or file name, and directories in the path must exist. The path is limited to MAX_PATH, not including the null terminator. The user must have permissions to write to the directory. BITS does not support NTFS streams. Instead of using network drives, which are session specific, use UNC paths (for example, \\server\share\path\file). Do not include the \\? prefix in the path. </param>
+		void SetReplyFileName([MarshalAs(UnmanagedType.LPWStr)] string ReplyFileName);
+
+		/// <summary>
+		/// Use the GetReplyFileName method to retrieve the name of the file that contains the reply data from the server application. Only call this method if the job type is BG_JOB_TYPE_UPLOAD_REPLY.
+		/// </summary>
+		/// <param name="pReplyFileName">Null-terminated string that contains the full path to the reply file. Call the CoTaskMemFree function to free pReplyFileName when done. </param>
+		void GetReplyFileName([MarshalAs(UnmanagedType.LPWStr)] out string pReplyFileName);
+
+		/// <summary>
+		/// Use the SetCredentials method to specify the credentials to use for a proxy or remote server user authentication request.
+		/// </summary>
+		/// <param name="Credentials">Identifies the target (proxy or server), authentication scheme, and the user's credentials to use for user authentication. For details, see the BG_AUTH_CREDENTIALS structure. If the job currently contains credentials with the same target and scheme pair, the existing credentials are replaced with the new credentials. The credentials persist for the life of the job. To remove the credentials from the job, call the IBackgroundCopyJob2::RemoveCredentials method. </param>
+		void SetCredentials([In] ref BG_AUTH_CREDENTIALS Credentials);
+
+		/// <summary>
+		/// Use the RemoveCredentials method to remove credentials from use. The credentials must match an existing target and scheme pair that you specified using the IBackgroundCopyJob2::SetCredentials method. There is no method to retrieve the credentials you have set.
+		/// </summary>
+		/// <param name="Target">Identifies whether to use the credentials for proxy or server authentication.</param>
+		/// <param name="Scheme">Identifies the authentication scheme to use (basic or one of several challenge-response schemes). For details, see the BG_AUTH_SCHEME enumeration. </param>
+		void RemoveCredentials(BG_AUTH_TARGET Target, BG_AUTH_SCHEME Scheme);
+
         void ReplaceRemotePrefix([MarshalAs(UnmanagedType.LPWStr)] string OldPrefix, [MarshalAs(UnmanagedType.LPWStr)] string NewPrefix);
         
-        void AddFileWithRanges([MarshalAs(UnmanagedType.LPWStr)] string RemoteUrl, [MarshalAs(UnmanagedType.LPWStr)] string LocalName, int RangeCount, [MarshalAs(UnmanagedType.LPArray)] BG_FILE_RANGE[] Ranges);
+        void AddFileWithRanges([MarshalAs(UnmanagedType.LPWStr)] string RemoteUrl, [MarshalAs(UnmanagedType.LPWStr)] string LocalName, uint RangeCount, [MarshalAs(UnmanagedType.LPArray)] BG_FILE_RANGE[] Ranges);
                 
-        void SetFileACLFlags(ulong Flags);
+        void SetFileACLFlags(uint Flags);
         
-        void GetFileACLFlags([Out] out ulong Flags);
+        void GetFileACLFlags([Out] out uint Flags);
 
     }
     #endregion
@@ -807,7 +1072,7 @@ namespace SharpBits.Base
 		/// <summary>
 		/// Retrieves the local name of the file
 		/// </summary>
-		/// <param name="pVal">Null-terminated string that contains the name of the file on the client. The name is fully qualified. Call the CoTaskMemFree function to free ppName when done. </param>
+		/// <param name="pVal">Null-terminated string that contains the name of the file on the client.</param>
 		void GetLocalName([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
 		
 		/// <summary>
@@ -815,6 +1080,51 @@ namespace SharpBits.Base
 		/// </summary>
 		/// <param name="pVal">Structure whose members indicate the progress of the file transfer. For details on the type of progress information available, see the BG_FILE_PROGRESS structure.</param>
 		void GetProgress(out BG_FILE_PROGRESS pVal);
+    }
+    #endregion
+
+    #region IBackgroundCopyFile2
+    /// <summary>
+	///  The IBackgroundCopyFile2 interface contains information about a file 
+	///  that is part of a job. The IBackgroundCopyFile2 interface is used to 
+    ///  specify a new remote name for the file and retrieve the list of 
+    ///  ranges to download
+	/// </summary>
+	[GuidAttribute("83E81B93-0873-474D-8A8C-F2018B1A939C")]
+	[InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
+	[ComImportAttribute()]
+	internal interface IBackgroundCopyFile2
+	{
+		/// <summary>
+		/// Retrieves the remote name of the file
+		/// </summary>
+		/// <param name="pVal">Null-terminated string that contains the remote name of the file to transfer. The name is fully qualified. Call the CoTaskMemFree function to free ppName when done. </param>
+		void GetRemoteName([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+
+		/// <summary>
+		/// Retrieves the local name of the file
+		/// </summary>
+		/// <param name="pVal">Null-terminated string that contains the name of the file on the client.</param>
+		void GetLocalName([MarshalAs(UnmanagedType.LPWStr)] out string pVal);
+		
+		/// <summary>
+		/// Retrieves the progress of the file transfer
+		/// </summary>
+		/// <param name="pVal">Structure whose members indicate the progress of the file transfer. For details on the type of progress information available, see the BG_FILE_PROGRESS structure.</param>
+		void GetProgress(out BG_FILE_PROGRESS pVal);
+
+        /// <summary>
+		/// Retrieves the ranges that could be downloaded from the remote file
+		/// </summary>
+		/// <param name="RangeCount">Number of elements in Ranges</param>
+		/// <param name="Ranges">Array of BG_FILE_RANGE structures that specify the ranges to download</param>
+		void GetFileRanges(out uint RangeCount, out IntPtr /*BG_FILE_RANGE[]*/ Ranges);
+
+		/// <summary>
+		/// Changes the remote name to a new URL in a download job
+		/// </summary>
+		/// <param name="RemoteName">Null-terminated string that contains the name of the file on the server</param>
+		void SetRemoteName([MarshalAs(UnmanagedType.LPWStr)] string RemoteName);
     }
     #endregion
 
@@ -1175,6 +1485,18 @@ namespace SharpBits.Base
     }
     #endregion
 
+    #region FileACLFlags
+    [Flags]
+    internal enum File_ACL_Flags
+    {
+        BG_COPY_FILE_OWNER = 0x0001,
+        BG_COPY_FILE_GROUP = 0x0002,
+        BG_COPY_FILE_DACL =  0x0004,
+        BG_COPY_FILE_SACL =  0x0008,
+        BG_COPY_FILE_ALL =   0x0015,
+    }
+    #endregion
+
     #region BG_FILE_INFO
     /// <summary>
 	/// The BG_FILE_INFO structure provides the local and 
@@ -1322,17 +1644,17 @@ namespace SharpBits.Base
 	[StructLayoutAttribute(LayoutKind.Sequential, Pack=8, Size=0)]
     internal struct BG_FILE_RANGE
     {
-        const ulong BG_LENGTH_TO_EOF = unchecked((ulong)-1);
+        public const ulong BG_LENGTH_TO_EOF = unchecked((ulong)-1);
 
         /// <summary>
         /// Zero-based offset to the beginning of the range of bytes to download from a file. 
         /// </summary>
-        ulong InitialOffset;
+        public ulong InitialOffset;
         
         /// <summary>
         /// Number of bytes in the range. To indicate that the range extends to the end of the file, specify BG_LENGTH_TO_EOF
         /// </summary>
-        ulong Length;
+        public ulong Length;
     }
     #endregion
 

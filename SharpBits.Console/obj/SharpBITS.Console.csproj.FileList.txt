@@ -1,0 +1,7 @@
+bin\Debug\SharpBITS.Console.exe
+bin\Debug\SharpBITS.Console.pdb
+bin\Debug\SharpBITS.Base.dll
+bin\Debug\SharpBITS.Base.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\SharpBITS.Console.exe
+obj\Debug\SharpBITS.Console.pdb
