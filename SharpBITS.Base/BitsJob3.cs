@@ -60,10 +60,10 @@ namespace SharpBits.Base
         {
             get
             {
-                uint flags = 0;
+                FILE_ACL_FLAGS flags = 0;
                 try
                 {
-                    if (this.job3 != null)// only supported from IBackgroundCopyJob2 and above
+                    if (this.job3 != null)// only supported from IBackgroundCopyJob3 and above
                     {
                         this.job3.GetFileACLFlags(out flags);
                     }
@@ -84,7 +84,7 @@ namespace SharpBits.Base
                 {
                     if (this.job3 != null)// only supported from IBackgroundCopyJob3 and above
                     {
-                        this.job3.SetFileACLFlags((uint)value);
+                        this.job3.SetFileACLFlags((FILE_ACL_FLAGS)value);
                     }
                     else
                     {

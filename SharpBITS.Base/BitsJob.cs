@@ -33,6 +33,7 @@ namespace SharpBits.Base
             this.job = job;
             this.job2 = this.job as IBackgroundCopyJob2;
             this.job3 = this.job as IBackgroundCopyJob3;
+            this.job4 = this.job as IBackgroundCopyJob4;
 
             ///store existing notification handler and route message to this as well
             ///otherwise it may break system download jobs
@@ -514,7 +515,7 @@ namespace SharpBits.Base
         {
             get
             {
-                uint flags = 0;
+                BG_JOB_NOTIFICATION_TYPE flags = 0;
                 try
                 {
                     job.GetNotifyFlags(out flags);
@@ -529,7 +530,7 @@ namespace SharpBits.Base
             {
                 try
                 {
-                    job.SetNotifyFlags((uint)value);
+                    job.SetNotifyFlags((BG_JOB_NOTIFICATION_TYPE)value);
                 }
                 catch (COMException exception)
                 {

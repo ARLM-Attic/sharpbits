@@ -55,6 +55,7 @@
     <Compile Include="BitsNotification.cs" />
     <Compile Include="BitsFile2.cs" />
     <Compile Include="BitsJob3.cs" />
+    <Compile Include="BitsJob4.cs" />
     <Compile Include="JobReplyProgress.cs" />
     <Compile Include="FileProgress.cs" />
     <Compile Include="FileRange.cs" />
