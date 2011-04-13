@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Base", "..\SharpBITS.Base\SharpBITS.Base.csproj", "{B39FDB92-7420-487E-8B44-D9BC0B88D857}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Console", "..\SharpBits.Console\SharpBITS.Console.csproj", "{F433606D-8C1F-4493-8C56-B180B86735CA}"
@@ -9,7 +9,7 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs05.codeplex.com/
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = ..\\SharpBITS.Base\\SharpBITS.Base.csproj
 		SccProjectName1 = ../SharpBITS.Base
