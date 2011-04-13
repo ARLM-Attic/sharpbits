@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics;
+using System.IO;
 
 namespace SharpBits.Base
 {
@@ -58,6 +60,7 @@ namespace SharpBits.Base
         Bits2_0,
         Bits2_5,
         Bits3_0,
+        Bits4_0,
     }
 
     static class NativeMethods
@@ -74,28 +77,11 @@ namespace SharpBits.Base
         [DllImport("ole32.dll", CharSet = CharSet.Auto)]
         public static extern int CoInitializeSecurity(IntPtr pVoid, int cAuthSvc, IntPtr asAuthSvc, IntPtr pReserved1, RpcAuthnLevel level,
             RpcImpLevel impers, IntPtr pAuthList, EoAuthnCap dwCapabilities, IntPtr pReserved3);
-
-        [DllImport("version.dll", CharSet = CharSet.Auto)]
-        internal static extern bool GetFileVersionInfo(string sFileName, int handle, int size, byte[] infoBuffer);
-        
-        [DllImport("version.dll", CharSet = CharSet.Auto)]
-        internal static extern int GetFileVersionInfoSize(string sFileName, out int handle);
-        
-        [DllImport("version.dll", CharSet = CharSet.Auto)]
-        internal static extern bool VerQueryValue(byte[] pBlock, string pSubBlock, out string pValue, out uint len);
-        
-        [DllImport("version.dll", CharSet = CharSet.Auto)]
-        internal static extern bool VerQueryValue(byte[] pBlock, string pSubBlock, out IntPtr pValue, out uint len);
     }
 
     internal static class Utils
     {
-        static BitsVersion version;
-
-        static  Utils()
-        {
-            version = GetBitsVersion();
-        }
+        static BitsVersion version = GetBitsVersion();
 
         internal static string GetName(string SID)
         {
@@ -120,11 +106,11 @@ namespace SharpBits.Base
         {
             long fileTime = 0;
             if (dateTime != DateTime.MinValue)      //Checking for MinValue
-                fileTime = dateTime.ToFileTime();    
+                fileTime = dateTime.ToFileTime();
             FILETIME resultingFileTime = new FILETIME();
             resultingFileTime.dwLowDateTime = (uint)(fileTime & 0xFFFFFFFF);
             resultingFileTime.dwHighDateTime = (uint)(fileTime >> 32);
-            return resultingFileTime; 
+            return resultingFileTime;
         }
 
         internal static DateTime FileTime2DateTime(FILETIME fileTime)
@@ -145,82 +131,62 @@ namespace SharpBits.Base
         /// 6.6.xxxx = BITS 2.0
         /// 6.7.xxxx = BITS 2.5
         /// 7.0.xxxx = BITS 3.0
+        /// 7.5.xxxx = BITS 4.0
         /// </summary>
         /// <returns></returns>
         private static BitsVersion GetBitsVersion()
         {
+            int major = 0;
+            int minor = 0;
             try
             {
-                string fileName = System.IO.Path.Combine(System.Environment.SystemDirectory, "qmgr.dll");
-                int handle = 0;
-                int size = NativeMethods.GetFileVersionInfoSize(fileName, out handle);
-                if (size == 0) return BitsVersion.Bits0_0;
-                byte[] buffer = new byte[size];
-                if (!NativeMethods.GetFileVersionInfo(fileName, handle, size, buffer))
-                {
-                    return BitsVersion.Bits0_0;
-                }
-                IntPtr subBlock = IntPtr.Zero;
-                uint len = 0;
-                if (!NativeMethods.VerQueryValue(buffer, @"\VarFileInfo\Translation", out subBlock, out len))
-                {
-                    return BitsVersion.Bits0_0;
-                }
+                string fileName = Path.Combine(System.Environment.SystemDirectory, "qmgr.dll");
+                FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(fileName);
 
-                int block1 = Marshal.ReadInt16(subBlock);
-                int block2 = Marshal.ReadInt16((IntPtr)((int)subBlock + 2 ));
-                string spv = string.Format(@"\StringFileInfo\{0:X4}{1:X4}\ProductVersion", block1, block2);
-
-                string versionInfo;
-                if (!NativeMethods.VerQueryValue(buffer, spv, out versionInfo, out len))
-                {
-                    return BitsVersion.Bits0_0;
-                }
-                
-                string[] versionNumbers = versionInfo.Split('.');
-
-                if (versionNumbers == null || versionNumbers.Length < 2)
-                    return BitsVersion.Bits0_0;
-
-                int major = int.Parse(versionNumbers[0]);
-                int minor = int.Parse(versionNumbers[1]);
-
-                switch (major)
-                {
-                    case 6:
-                        switch(minor)
-                        {
-                            case 0:
-                                return BitsVersion.Bits1_0;
-                            case 2:
-                                return BitsVersion.Bits1_2;
-                            case 5:
-                                return BitsVersion.Bits1_5;
-                            case 6:
-                                return BitsVersion.Bits2_0;
-                            case 7:
-                                return BitsVersion.Bits2_5;
-                            default:
-                                return BitsVersion.Bits0_0;
-                        }
-                    case 7:
-                        return BitsVersion.Bits3_0;
-                    default:
-                        return BitsVersion.Bits0_0;
-                }
+                major = fileVersion.FileMajorPart;
+                minor = fileVersion.FileMinorPart;
             }
-            catch
+            catch (FileNotFoundException)
             {
                 return BitsVersion.Bits0_0;
+            }
+
+            switch (major)
+            {
+                case 6:
+                    switch (minor)
+                    {
+                        case 0:
+                            return BitsVersion.Bits1_0;
+                        case 2:
+                            return BitsVersion.Bits1_2;
+                        case 5:
+                            return BitsVersion.Bits1_5;
+                        case 6:
+                            return BitsVersion.Bits2_0;
+                        case 7:
+                            return BitsVersion.Bits2_5;
+                        default:
+                            return BitsVersion.Bits0_0;
+                    }
+                case 7:
+                    switch (minor)
+                    {
+                        case 0:
+                            return BitsVersion.Bits3_0;
+                        case 5:
+                            return BitsVersion.Bits4_0;
+                        default:
+                            return BitsVersion.Bits0_0;
+                    }
+                default:
+                    return BitsVersion.Bits0_0;
             }
         }
 
         internal static BitsVersion BITSVersion
         {
-            get
-            {
-                return version;
-            }
+            get { return version; }
         }
     }
 }

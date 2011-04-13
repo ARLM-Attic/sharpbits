@@ -28,7 +28,7 @@ namespace SharpBits.Base
         TransientError = 5,
         Transferred = 6,
         Acknowledged = 7,
-        Cancelled = 8,
+        Canceled = 8,
     }
 
     public enum JobType

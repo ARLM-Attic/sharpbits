@@ -35,99 +35,129 @@ namespace SharpBits.WinClient
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.tabSecurity = new TabPage();
-            this.userAuthenticationControl = new UserAuthenticationControl();
-            this.tabFiles = new TabPage();
-            this.fileListControl = new FileListControl();
-            this.tabDetails = new TabPage();
-            this.jobDetailsControl = new JobDetailsControl();
-            this.tcJobDetails = new TabControl();
-            this.tabMessages = new TabPage();
-            this.jobMessageControl = new JobMessageControl();
+            this.tabSecurity = new System.Windows.Forms.TabPage();
+            this.userAuthenticationControl = new SharpBits.WinClient.UserAuthenticationControl();
+            this.tabFiles = new System.Windows.Forms.TabPage();
+            this.fileListControl = new SharpBits.WinClient.FileListControl();
+            this.tabDetails = new System.Windows.Forms.TabPage();
+            this.jobDetailsControl = new SharpBits.WinClient.JobDetailsControl();
+            this.tcJobDetails = new System.Windows.Forms.TabControl();
+            this.tabMessages = new System.Windows.Forms.TabPage();
+            this.jobMessageControl = new SharpBits.WinClient.JobMessageControl();
             this.tabSecurity.SuspendLayout();
             this.tabFiles.SuspendLayout();
             this.tabDetails.SuspendLayout();
             this.tcJobDetails.SuspendLayout();
             this.tabMessages.SuspendLayout();
-            base.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tabSecurity
+            // 
             this.tabSecurity.Controls.Add(this.userAuthenticationControl);
-            this.tabSecurity.Location = new Point(4, 0x16);
+            this.tabSecurity.Location = new System.Drawing.Point(4, 22);
             this.tabSecurity.Name = "tabSecurity";
-            this.tabSecurity.Padding = new Padding(3);
-            this.tabSecurity.Size = new Size(0x223, 390);
+            this.tabSecurity.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSecurity.Size = new System.Drawing.Size(547, 390);
             this.tabSecurity.TabIndex = 2;
             this.tabSecurity.Text = "Authentication";
             this.tabSecurity.UseVisualStyleBackColor = true;
+            // 
+            // userAuthenticationControl
+            // 
             this.userAuthenticationControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userAuthenticationControl.Location = new Point(3, 3);
-            this.userAuthenticationControl.MinimumSize = new Size(0x242, 0x1a3);
+            this.userAuthenticationControl.Location = new System.Drawing.Point(3, 3);
+            this.userAuthenticationControl.MinimumSize = new System.Drawing.Size(578, 419);
             this.userAuthenticationControl.Name = "userAuthenticationControl";
-            this.userAuthenticationControl.Size = new Size(0x242, 0x1a3);
+            this.userAuthenticationControl.Size = new System.Drawing.Size(578, 419);
             this.userAuthenticationControl.TabIndex = 0;
+            // 
+            // tabFiles
+            // 
             this.tabFiles.Controls.Add(this.fileListControl);
-            this.tabFiles.Location = new Point(4, 0x16);
+            this.tabFiles.Location = new System.Drawing.Point(4, 22);
             this.tabFiles.Name = "tabFiles";
-            this.tabFiles.Padding = new Padding(3);
-            this.tabFiles.Size = new Size(0x223, 390);
+            this.tabFiles.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFiles.Size = new System.Drawing.Size(547, 390);
             this.tabFiles.TabIndex = 1;
             this.tabFiles.Text = "Files";
             this.tabFiles.UseVisualStyleBackColor = true;
+            // 
+            // fileListControl
+            // 
             this.fileListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileListControl.Location = new Point(3, 3);
+            this.fileListControl.Location = new System.Drawing.Point(3, 3);
             this.fileListControl.Name = "fileListControl";
-            this.fileListControl.Size = new Size(0x21d, 0x180);
+            this.fileListControl.Size = new System.Drawing.Size(541, 384);
             this.fileListControl.TabIndex = 0;
+            // 
+            // tabDetails
+            // 
             this.tabDetails.Controls.Add(this.jobDetailsControl);
-            this.tabDetails.Location = new Point(4, 0x16);
+            this.tabDetails.Location = new System.Drawing.Point(4, 22);
             this.tabDetails.Name = "tabDetails";
-            this.tabDetails.Padding = new Padding(3);
-            this.tabDetails.Size = new Size(0x223, 390);
+            this.tabDetails.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDetails.Size = new System.Drawing.Size(547, 390);
             this.tabDetails.TabIndex = 0;
             this.tabDetails.Text = "Details";
             this.tabDetails.UseVisualStyleBackColor = true;
+            // 
+            // jobDetailsControl
+            // 
             this.jobDetailsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.jobDetailsControl.Location = new Point(3, 3);
+            this.jobDetailsControl.Location = new System.Drawing.Point(3, 3);
             this.jobDetailsControl.Name = "jobDetailsControl";
-            this.jobDetailsControl.Size = new Size(0x21d, 0x180);
+            this.jobDetailsControl.Size = new System.Drawing.Size(541, 384);
             this.jobDetailsControl.TabIndex = 0;
+            // 
+            // tcJobDetails
+            // 
             this.tcJobDetails.Controls.Add(this.tabDetails);
             this.tcJobDetails.Controls.Add(this.tabFiles);
             this.tcJobDetails.Controls.Add(this.tabSecurity);
             this.tcJobDetails.Controls.Add(this.tabMessages);
             this.tcJobDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcJobDetails.Location = new Point(0, 0);
+            this.tcJobDetails.Location = new System.Drawing.Point(0, 0);
             this.tcJobDetails.Name = "tcJobDetails";
             this.tcJobDetails.SelectedIndex = 0;
-            this.tcJobDetails.Size = new Size(0x22b, 0x1a0);
+            this.tcJobDetails.Size = new System.Drawing.Size(555, 416);
             this.tcJobDetails.TabIndex = 3;
-            this.tcJobDetails.SelectedIndexChanged += new EventHandler(this.tcJob_SelectedIndexChanged);
+            this.tcJobDetails.SelectedIndexChanged += new System.EventHandler(this.tcJob_SelectedIndexChanged);
+            // 
+            // tabMessages
+            // 
             this.tabMessages.Controls.Add(this.jobMessageControl);
-            this.tabMessages.Location = new Point(4, 0x16);
+            this.tabMessages.Location = new System.Drawing.Point(4, 22);
             this.tabMessages.Name = "tabMessages";
-            this.tabMessages.Padding = new Padding(3);
-            this.tabMessages.Size = new Size(0x223, 390);
+            this.tabMessages.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMessages.Size = new System.Drawing.Size(547, 390);
             this.tabMessages.TabIndex = 3;
             this.tabMessages.Text = "Messages";
             this.tabMessages.UseVisualStyleBackColor = true;
+            // 
+            // jobMessageControl
+            // 
             this.jobMessageControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.jobMessageControl.Location = new Point(3, 3);
+            this.jobMessageControl.Location = new System.Drawing.Point(3, 3);
             this.jobMessageControl.Name = "jobMessageControl";
-            this.jobMessageControl.Size = new Size(0x21d, 0x180);
+            this.jobMessageControl.Size = new System.Drawing.Size(541, 384);
             this.jobMessageControl.TabIndex = 0;
+            // 
+            // BitsJobDetails
+            // 
             this.AllowDrop = true;
-            base.AutoScaleDimensions = new SizeF(6f, 13f);
-            base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            base.Controls.Add(this.tcJobDetails);
-            base.Name = "BitsJobDetails";
-            base.Size = new Size(0x22b, 0x1a0);
+            this.Controls.Add(this.tcJobDetails);
+            this.Name = "BitsJobDetails";
+            this.Size = new System.Drawing.Size(555, 416);
             this.tabSecurity.ResumeLayout(false);
             this.tabFiles.ResumeLayout(false);
             this.tabDetails.ResumeLayout(false);
             this.tcJobDetails.ResumeLayout(false);
             this.tabMessages.ResumeLayout(false);
-            base.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -14,14 +14,14 @@ namespace SharpBits.Base
         internal BitsError(BitsJob job, IBackgroundCopyError error)
         {
             if (null == error)
-                throw new ArgumentNullException("IBackgroundCopyError");
+                throw new ArgumentNullException("error", "Parameter IBackgroundCopyError cannot be a null reference");
             this.error = error;
             this.job = job;
         }
 
         public string Description
         {
-            get  
+            get
             {
                 string description = string.Empty;
                 try
@@ -29,7 +29,7 @@ namespace SharpBits.Base
                     this.error.GetErrorDescription(Convert.ToUInt32(Thread.CurrentThread.CurrentUICulture.LCID), out description);
                 }
                 catch (COMException exception)
-                {                    
+                {
                     this.job.PublishException(exception);
                 }
                 return description;
@@ -90,8 +90,8 @@ namespace SharpBits.Base
 
         public ErrorContext ErrorContext
         {
-            get 
-            { 
+            get
+            {
                 BG_ERROR_CONTEXT context;
                 int errorCode;
                 try
@@ -109,8 +109,8 @@ namespace SharpBits.Base
 
         public int ErrorCode
         {
-            get 
-            { 
+            get
+            {
                 BG_ERROR_CONTEXT context;
                 int errorCode = 0;
                 try

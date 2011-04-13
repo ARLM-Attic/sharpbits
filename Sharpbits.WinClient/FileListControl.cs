@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Crad.Windows.Forms.Actions;
-using System.Windows.Forms;
-using System.ComponentModel;
-
-using SharpBits.WinClient.Controls;
-using SharpBits.Base;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+using SharpBits.Base;
+using SharpBits.WinClient.Controls;
 using SharpBits.WinClient.Properties;
 
 namespace SharpBits.WinClient
@@ -17,9 +11,6 @@ namespace SharpBits.WinClient
     public partial class FileListControl : JobControl
     {
         // Fields
-        private Crad.Windows.Forms.Actions.Action actAddFile;
-        private ActionList actlFileList;
-        private Crad.Windows.Forms.Actions.Action actRemoveFile;
         private ColumnHeader clhBytesTotal;
         private ColumnHeader clhLocal;
         private ColumnHeader clhProgress;
@@ -34,11 +25,6 @@ namespace SharpBits.WinClient
         }
 
         private void actAddFile_Execute(object sender, EventArgs e)
-        {
-            this.AddFiles(base.wrapper.BitsJob.JobType);
-        }
-
-        private void actRemoveFile_Execute(object sender, EventArgs e)
         {
         }
 
@@ -171,7 +157,7 @@ namespace SharpBits.WinClient
                     windowText = Settings.Default.ProgressCompletedColor;
                     prototype = new Font(prototype, FontStyle.Strikeout);
                 }
-                else if (bitsJob.State == JobState.Cancelled)
+                else if (bitsJob.State == JobState.Canceled)
                 {
                     if (e.Item.Selected)
                     {
@@ -358,6 +344,11 @@ namespace SharpBits.WinClient
                 }
                 this.lvJobFiles.EndUpdate();
             }
+        }
+
+        private void lvJobFiles_DoubleClick(object sender, EventArgs e)
+        {
+            this.AddFiles(base.wrapper.BitsJob.JobType);
         }
     }
 

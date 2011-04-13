@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpBits.WinClient.Controls;
-using Crad.Windows.Forms.Actions;
-using System.Windows.Forms;
-using System.ComponentModel;
-using SharpBits.Base;
-using SharpBits.WinClient.Properties;
-using System.Drawing;
 using System.Globalization;
+using System.Windows.Forms;
+using SharpBits.Base;
+using SharpBits.WinClient.Controls;
+using SharpBits.WinClient.Properties;
 
 namespace SharpBits.WinClient
 {
     public partial class JobDetailsControl : JobControl
     {
         // Fields
-        private Crad.Windows.Forms.Actions.Action actCancel;
-        private Crad.Windows.Forms.Actions.Action actComplete;
-        private ActionList actlJobDetails;
-        private Crad.Windows.Forms.Actions.Action actResume;
-        private Crad.Windows.Forms.Actions.Action actSuspend;
         private Button btnCancel;
         private Button btnComplete;
         private Button btnResume;
@@ -66,42 +55,6 @@ namespace SharpBits.WinClient
             this.cbPriority.EndUpdate();
         }
 
-        private void actCancel_Execute(object sender, EventArgs e)
-        {
-            if ((base.wrapper.BitsJob.State != JobState.Acknowledged) && (base.wrapper.BitsJob.State != JobState.Cancelled))
-            {
-                base.wrapper.BitsJob.Cancel();
-            }
-            this.ControlsFromJobState();
-        }
-
-        private void actComplete_Execute(object sender, EventArgs e)
-        {
-            if ((((base.wrapper.BitsJob.JobType == JobType.Download) && (base.wrapper.BitsJob.State != JobState.Acknowledged)) && (base.wrapper.BitsJob.State != JobState.Cancelled)) || ((base.wrapper.BitsJob.JobType == JobType.Upload) && (base.wrapper.BitsJob.State == JobState.Transferred)))
-            {
-                base.wrapper.BitsJob.Complete();
-            }
-            this.ControlsFromJobState();
-        }
-
-        private void actResume_Execute(object sender, EventArgs e)
-        {
-            if ((base.wrapper.BitsJob.State != JobState.Acknowledged) && (base.wrapper.BitsJob.State != JobState.Cancelled))
-            {
-                base.wrapper.BitsJob.Resume();
-            }
-            this.ControlsFromJobState();
-        }
-
-        private void actSuspend_Execute(object sender, EventArgs e)
-        {
-            if ((base.wrapper.BitsJob.State != JobState.Acknowledged) && (base.wrapper.BitsJob.State != JobState.Cancelled))
-            {
-                base.wrapper.BitsJob.Suspend();
-            }
-            this.ControlsFromJobState();
-        }
-
         private void btnTakeOwnership_Click(object sender, EventArgs e)
         {
             try
@@ -139,66 +92,66 @@ namespace SharpBits.WinClient
             switch (base.wrapper.BitsJob.State)
             {
                 case JobState.Queued:
-                    this.actResume.Enabled = true;
-                    this.actSuspend.Enabled = true;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = true;
+                    this.btnSuspend.Enabled = true;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.Connecting:
-                    this.actResume.Enabled = false;
-                    this.actSuspend.Enabled = true;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = false;
+                    this.btnSuspend.Enabled = true;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.Transferring:
-                    this.actResume.Enabled = false;
-                    this.actSuspend.Enabled = true;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = false;
+                    this.btnSuspend.Enabled = true;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.Suspended:
-                    this.actResume.Enabled = true;
-                    this.actSuspend.Enabled = false;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = true;
+                    this.btnSuspend.Enabled = false;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.Error:
-                    this.actResume.Enabled = true;
-                    this.actSuspend.Enabled = true;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = true;
+                    this.btnSuspend.Enabled = true;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.TransientError:
-                    this.actResume.Enabled = true;
-                    this.actSuspend.Enabled = false;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = true;
+                    this.btnSuspend.Enabled = false;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.Transferred:
-                    this.actResume.Enabled = false;
-                    this.actSuspend.Enabled = false;
-                    this.actCancel.Enabled = true;
-                    this.actComplete.Enabled = true;
+                    this.btnResume.Enabled = false;
+                    this.btnSuspend.Enabled = false;
+                    this.btnCancel.Enabled = true;
+                    this.btnComplete.Enabled = true;
                     return;
 
                 case JobState.Acknowledged:
-                    this.actCancel.Enabled = false;
-                    this.actComplete.Enabled = false;
-                    this.actSuspend.Enabled = false;
-                    this.actResume.Enabled = false;
+                    this.btnCancel.Enabled = false;
+                    this.btnComplete.Enabled = false;
+                    this.btnSuspend.Enabled = false;
+                    this.btnResume.Enabled = false;
                     return;
 
-                case JobState.Cancelled:
-                    this.actCancel.Enabled = false;
-                    this.actComplete.Enabled = false;
-                    this.actSuspend.Enabled = false;
-                    this.actResume.Enabled = false;
+                case JobState.Canceled:
+                    this.btnCancel.Enabled = false;
+                    this.btnComplete.Enabled = false;
+                    this.btnSuspend.Enabled = false;
+                    this.btnResume.Enabled = false;
                     return;
             }
         }
@@ -364,6 +317,42 @@ namespace SharpBits.WinClient
             Creation,
             Modification,
             Completion
+        }
+
+        private void btnResume_Click(object sender, EventArgs e)
+        {
+            if ((base.wrapper.BitsJob.State != JobState.Acknowledged) && (base.wrapper.BitsJob.State != JobState.Canceled))
+            {
+                base.wrapper.BitsJob.Resume();
+            }
+            this.ControlsFromJobState();
+        }
+
+        private void btnSuspend_Click(object sender, EventArgs e)
+        {
+            if ((base.wrapper.BitsJob.State != JobState.Acknowledged) && (base.wrapper.BitsJob.State != JobState.Canceled))
+            {
+                base.wrapper.BitsJob.Suspend();
+            }
+            this.ControlsFromJobState();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            if ((base.wrapper.BitsJob.State != JobState.Acknowledged) && (base.wrapper.BitsJob.State != JobState.Canceled))
+            {
+                base.wrapper.BitsJob.Cancel();
+            }
+            this.ControlsFromJobState();
+        }
+
+        private void btnComplete_Click(object sender, EventArgs e)
+        {
+            if ((((base.wrapper.BitsJob.JobType == JobType.Download) && (base.wrapper.BitsJob.State != JobState.Acknowledged)) && (base.wrapper.BitsJob.State != JobState.Canceled)) || ((base.wrapper.BitsJob.JobType == JobType.Upload) && (base.wrapper.BitsJob.State == JobState.Transferred)))
+            {
+                base.wrapper.BitsJob.Complete();
+            }
+            this.ControlsFromJobState();
         }
     }
 

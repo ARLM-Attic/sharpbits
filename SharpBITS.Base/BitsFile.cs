@@ -15,7 +15,7 @@ namespace SharpBits.Base
         internal BitsFile(BitsJob job, IBackgroundCopyFile file)
         {
             if (null == file)
-                throw new ArgumentNullException("IBackgroundCopyFile");
+                throw new ArgumentNullException("file", "Parameter IBackgroundCopyFile cannot be a null reference");
             this.file = file;
             this.file2 = file as IBackgroundCopyFile2;
             this.job = job;
@@ -80,11 +80,11 @@ namespace SharpBits.Base
             {
                 if (null == this.progress)
                 {
-                    BG_FILE_PROGRESS progress;
+                    BG_FILE_PROGRESS fileProgress;
                     try
                     {
-                        this.file.GetProgress(out progress);
-                        this.progress = new FileProgress(progress);
+                        this.file.GetProgress(out fileProgress);
+                        this.progress = new FileProgress(fileProgress);
                     }
                     catch (COMException exception)
                     {

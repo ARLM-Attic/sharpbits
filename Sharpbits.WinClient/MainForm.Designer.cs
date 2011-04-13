@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using SharpBits.WinClient.Properties;
-using Crad.Windows.Forms.Actions;
-using System.ComponentModel;
-
+﻿
 namespace SharpBits.WinClient
 {
     partial class MainForm
@@ -39,238 +30,323 @@ namespace SharpBits.WinClient
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            ComponentResourceManager manager = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.systray = new NotifyIcon(this.components);
-            this.ctxMenuSystray = new ContextMenuStrip(this.components);
-            this.ctxSystrayShow = new ToolStripMenuItem();
-            this.toolStripMenuItem2 = new ToolStripSeparator();
-            this.toolStripMenuItem1 = new ToolStripMenuItem();
-            this.toolStripSeparator1 = new ToolStripSeparator();
-            this.ctxSystrayExit = new ToolStripMenuItem();
-            this.toolStripBtnMenu = new ToolStripSplitButton();
-            this.ctxStatusBar = new ContextMenuStrip(this.components);
-            this.toolStripMenuItem4 = new ToolStripMenuItem();
-            this.toolStripSeparator2 = new ToolStripSeparator();
-            this.toolStripMenuItem3 = new ToolStripMenuItem();
-            this.actlMain = new ActionList();
-            this.actShowForm = new Crad.Windows.Forms.Actions.Action();
-            this.actSetBrowserIntegration = new Crad.Windows.Forms.Actions.Action();
-            this.actExit = new Crad.Windows.Forms.Actions.Action();
-            this.actHideForm = new Crad.Windows.Forms.Actions.Action();
-            this.actClearMessages = new Crad.Windows.Forms.Actions.Action();
-            this.ctxmiMainExit = new ToolStripMenuItem();
-            this.statMainForm = new StatusStrip();
-            this.toolStripStatusLabel1 = new ToolStripStatusLabel();
-            this.toolStripStatusJobUser = new ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new ToolStripStatusLabel();
-            this.statLabelMessage = new ToolStripStatusLabel();
-            this.txtMessages = new TextBox();
-            this.ctxMainForm = new ContextMenuStrip(this.components);
-            this.splitContainer = new SplitContainer();
-            this.panel1 = new Panel();
-            this.lblUrl = new Label();
-            this.btnAddUrl = new Button();
-            this.txtUrl = new TextBox();
-            this.toolTipControl = new ToolTip(this.components);
-            this.jobListControl = new JobListControl();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.systray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.ctxMenuSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxSystrayShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctxmiBrowserIntegration = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctxSystrayExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripBtnMenu = new System.Windows.Forms.ToolStripSplitButton();
+            this.ctxStatusBar = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiBrowserIntegration = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxmiMainExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.statMainForm = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusJobUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statLabelMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.txtMessages = new System.Windows.Forms.TextBox();
+            this.ctxMainForm = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblUrl = new System.Windows.Forms.Label();
+            this.btnAddUrl = new System.Windows.Forms.Button();
+            this.txtUrl = new System.Windows.Forms.TextBox();
+            this.jobListControl = new SharpBits.WinClient.JobListControl();
+            this.toolTipControl = new System.Windows.Forms.ToolTip(this.components);
             this.ctxMenuSystray.SuspendLayout();
             this.ctxStatusBar.SuspendLayout();
-            this.actlMain.BeginInit();
             this.statMainForm.SuspendLayout();
             this.ctxMainForm.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             this.panel1.SuspendLayout();
-            base.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // systray
+            // 
             this.systray.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.systray.ContextMenuStrip = this.ctxMenuSystray;
-            this.systray.Icon = (Icon)manager.GetObject("systray.Icon");
             this.systray.Text = "SharpBITS";
             this.systray.Visible = true;
-            this.systray.DoubleClick += new EventHandler(this.systray_DoubleClick);
-            this.ctxMenuSystray.Items.AddRange(new ToolStripItem[] { this.ctxSystrayShow, this.toolStripMenuItem2, this.toolStripMenuItem1, this.toolStripSeparator1, this.ctxSystrayExit });
+            this.systray.DoubleClick += new System.EventHandler(this.systray_DoubleClick);
+            // 
+            // ctxMenuSystray
+            // 
+            this.ctxMenuSystray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxSystrayShow,
+            this.toolStripMenuItem2,
+            this.ctxmiBrowserIntegration,
+            this.toolStripSeparator1,
+            this.ctxSystrayExit});
             this.ctxMenuSystray.Name = "contextMenuStrip1";
-            this.ctxMenuSystray.Size = new Size(0xbc, 0x52);
-            this.actlMain.SetAction(this.ctxSystrayShow, this.actShowForm);
+            this.ctxMenuSystray.Size = new System.Drawing.Size(177, 82);
+            // 
+            // ctxSystrayShow
+            // 
             this.ctxSystrayShow.Name = "ctxSystrayShow";
-            this.ctxSystrayShow.Size = new Size(0xbb, 0x16);
+            this.ctxSystrayShow.Size = new System.Drawing.Size(176, 22);
             this.ctxSystrayShow.Text = "Show";
+            this.ctxSystrayShow.ToolTipText = "Open the main form";
+            this.ctxSystrayShow.Click += new System.EventHandler(this.ctxSystrayShow_Click);
+            // 
+            // toolStripMenuItem2
+            // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new Size(0xb8, 6);
-            this.actlMain.SetAction(this.toolStripMenuItem1, this.actSetBrowserIntegration);
-            this.toolStripMenuItem1.CheckOnClick = true;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new Size(0xbb, 0x16);
-            this.toolStripMenuItem1.Text = "Enable IE Integration";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(173, 6);
+            // 
+            // ctxmiBrowserIntegration
+            // 
+            this.ctxmiBrowserIntegration.CheckOnClick = true;
+            this.ctxmiBrowserIntegration.Name = "ctxmiBrowserIntegration";
+            this.ctxmiBrowserIntegration.Size = new System.Drawing.Size(176, 22);
+            this.ctxmiBrowserIntegration.Text = "Enable IE Integration";
+            this.ctxmiBrowserIntegration.ToolTipText = "If enabled, SharpBITS integrates in IE Browser to start downloads from the contex" +
+    "t menu";
+            this.ctxmiBrowserIntegration.Click += new System.EventHandler(this.tsmiBrowserIntegration_Click);
+            // 
+            // toolStripSeparator1
+            // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new Size(0xb8, 6);
-            this.actlMain.SetAction(this.ctxSystrayExit, this.actExit);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
+            // 
+            // ctxSystrayExit
+            // 
             this.ctxSystrayExit.Name = "ctxSystrayExit";
-            this.ctxSystrayExit.Size = new Size(0xbb, 0x16);
+            this.ctxSystrayExit.Size = new System.Drawing.Size(176, 22);
             this.ctxSystrayExit.Text = "Exit";
+            // 
+            // toolStripBtnMenu
+            // 
             this.toolStripBtnMenu.AutoToolTip = false;
             this.toolStripBtnMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripBtnMenu.DropDown = this.ctxStatusBar;
-            this.toolStripBtnMenu.Image = Resources.xidar;
+            this.toolStripBtnMenu.Image = global::SharpBits.WinClient.Properties.Resources.xidar;
             this.toolStripBtnMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBtnMenu.Name = "toolStripBtnMenu";
-            this.toolStripBtnMenu.Size = new Size(0x20, 20);
+            this.toolStripBtnMenu.Size = new System.Drawing.Size(32, 20);
             this.toolStripBtnMenu.Text = "toolStripSplitMenu";
-            this.toolStripBtnMenu.ButtonClick += new EventHandler(this.toolStripBtnMenu_ButtonClick);
-            this.ctxStatusBar.Items.AddRange(new ToolStripItem[] { this.toolStripMenuItem4, this.toolStripSeparator2, this.toolStripMenuItem3 });
+            this.toolStripBtnMenu.ButtonClick += new System.EventHandler(this.toolStripBtnMenu_ButtonClick);
+            // 
+            // ctxStatusBar
+            // 
+            this.ctxStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiBrowserIntegration,
+            this.toolStripSeparator2,
+            this.toolStripMenuItem3});
             this.ctxStatusBar.Name = "ctxStatusBar";
             this.ctxStatusBar.OwnerItem = this.toolStripBtnMenu;
-            this.ctxStatusBar.Size = new Size(0xbc, 0x36);
-            this.actlMain.SetAction(this.toolStripMenuItem4, this.actSetBrowserIntegration);
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new Size(0xbb, 0x16);
-            this.toolStripMenuItem4.Text = "Enable IE Integration";
+            this.ctxStatusBar.Size = new System.Drawing.Size(177, 54);
+            // 
+            // tsmiBrowserIntegration
+            // 
+            this.tsmiBrowserIntegration.CheckOnClick = true;
+            this.tsmiBrowserIntegration.Name = "tsmiBrowserIntegration";
+            this.tsmiBrowserIntegration.Size = new System.Drawing.Size(176, 22);
+            this.tsmiBrowserIntegration.Text = "Enable IE Integration";
+            this.tsmiBrowserIntegration.ToolTipText = "If enabled, SharpBITS integrates in IE Browser to start downloads from the contex" +
+    "t menu";
+            this.tsmiBrowserIntegration.Click += new System.EventHandler(this.tsmiBrowserIntegration_Click);
+            // 
+            // toolStripSeparator2
+            // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new Size(0xb8, 6);
-            this.actlMain.SetAction(this.toolStripMenuItem3, this.actExit);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(173, 6);
+            // 
+            // toolStripMenuItem3
+            // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new Size(0xbb, 0x16);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(176, 22);
             this.toolStripMenuItem3.Text = "Exit";
-            this.actlMain.Actions.Add(this.actShowForm);
-            this.actlMain.Actions.Add(this.actHideForm);
-            this.actlMain.Actions.Add(this.actExit);
-            this.actlMain.Actions.Add(this.actClearMessages);
-            this.actlMain.Actions.Add(this.actSetBrowserIntegration);
-            this.actlMain.ContainerControl = this;
-            this.actShowForm.Text = "Show";
-            this.actShowForm.ToolTipText = "Open the main form";
-            this.actShowForm.Execute += new EventHandler(this.actShowForm_Execute);
-            this.actSetBrowserIntegration.CheckOnClick = true;
-            this.actSetBrowserIntegration.Text = "Enable IE Integration";
-            this.actSetBrowserIntegration.ToolTipText = "If enabled, SharpBITS integrates in IE Browser to start downloads from the context menu";
-            this.actSetBrowserIntegration.Execute += new EventHandler(this.actSetBrowserIntegration_Execute);
-            this.actExit.Text = "Exit";
-            this.actExit.ToolTipText = "Exit";
-            this.actExit.Execute += new EventHandler(this.actExit_Execute);
-            this.actHideForm.Text = "Hide";
-            this.actHideForm.ToolTipText = "Minimize the main form to system tray";
-            this.actHideForm.Execute += new EventHandler(this.actHideForm_Execute);
-            this.actClearMessages.Text = "Reset";
-            this.actlMain.SetAction(this.ctxmiMainExit, this.actExit);
+            this.toolStripMenuItem3.ToolTipText = "Exit";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.ctxmiMainExit_Click);
+            // 
+            // ctxmiMainExit
+            // 
             this.ctxmiMainExit.Name = "ctxmiMainExit";
             this.ctxmiMainExit.ShortcutKeyDisplayString = "";
-            this.ctxmiMainExit.Size = new Size(0x67, 0x16);
+            this.ctxmiMainExit.Size = new System.Drawing.Size(92, 22);
             this.ctxmiMainExit.Text = "Exit";
-            this.statMainForm.Items.AddRange(new ToolStripItem[] { this.toolStripStatusLabel1, this.toolStripStatusJobUser, this.toolStripStatusLabel2, this.toolStripBtnMenu });
-            this.statMainForm.Location = new Point(0, 0x179);
+            this.ctxmiMainExit.ToolTipText = "Exit";
+            this.ctxmiMainExit.Click += new System.EventHandler(this.ctxmiMainExit_Click);
+            // 
+            // statMainForm
+            // 
+            this.statMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusJobUser,
+            this.toolStripStatusLabel2,
+            this.toolStripBtnMenu});
+            this.statMainForm.Location = new System.Drawing.Point(0, 377);
             this.statMainForm.Name = "statMainForm";
             this.statMainForm.ShowItemToolTips = true;
-            this.statMainForm.Size = new Size(0x2b4, 0x16);
+            this.statMainForm.Size = new System.Drawing.Size(692, 22);
             this.statMainForm.TabIndex = 1;
+            // 
+            // toolStripStatusLabel1
+            // 
             this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new Size(0x270, 0x11);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(624, 17);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripStatusJobUser
+            // 
             this.toolStripStatusJobUser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripStatusJobUser.Image = Resources.AllUsers;
+            this.toolStripStatusJobUser.Image = global::SharpBits.WinClient.Properties.Resources.AllUsers;
             this.toolStripStatusJobUser.Name = "toolStripStatusJobUser";
-            this.toolStripStatusJobUser.Size = new Size(0x10, 0x11);
+            this.toolStripStatusJobUser.Size = new System.Drawing.Size(16, 17);
             this.toolStripStatusJobUser.Text = "toolStripStatusJobUser";
-            this.toolStripStatusJobUser.Click += new EventHandler(this.toolStripStatusJobUser_Click);
+            this.toolStripStatusJobUser.Click += new System.EventHandler(this.toolStripStatusJobUser_Click);
+            // 
+            // toolStripStatusLabel2
+            // 
             this.toolStripStatusLabel2.AutoSize = false;
             this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new Size(5, 0x11);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(5, 17);
             this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
+            // 
+            // statLabelMessage
+            // 
             this.statLabelMessage.AutoSize = false;
-            this.statLabelMessage.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.All;
+            this.statLabelMessage.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.statLabelMessage.Name = "statLabelMessage";
-            this.statLabelMessage.Size = new Size(200, 0x11);
+            this.statLabelMessage.Size = new System.Drawing.Size(200, 17);
             this.statLabelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtMessages
+            // 
             this.txtMessages.ContextMenuStrip = this.ctxMainForm;
             this.txtMessages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtMessages.Location = new Point(0, 0);
+            this.txtMessages.Location = new System.Drawing.Point(0, 0);
             this.txtMessages.Multiline = true;
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMessages.Size = new Size(0x2b4, 90);
+            this.txtMessages.Size = new System.Drawing.Size(692, 90);
             this.txtMessages.TabIndex = 2;
-            this.txtMessages.DoubleClick += new EventHandler(this.txtMessages_DoubleClick);
-            this.txtMessages.KeyDown += new KeyEventHandler(this.txtMessages_KeyDown);
-            this.ctxMainForm.Items.AddRange(new ToolStripItem[] { this.ctxmiMainExit });
+            this.txtMessages.DoubleClick += new System.EventHandler(this.txtMessages_DoubleClick);
+            this.txtMessages.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessages_KeyDown);
+            // 
+            // ctxMainForm
+            // 
+            this.ctxMainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxmiMainExit});
             this.ctxMainForm.Name = "ctxMainForm";
-            this.ctxMainForm.Size = new Size(0x68, 0x1a);
+            this.ctxMainForm.Size = new System.Drawing.Size(93, 26);
+            // 
+            // splitContainer
+            // 
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new Point(0, 0);
+            this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
             this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer.Panel1
+            // 
             this.splitContainer.Panel1.Controls.Add(this.panel1);
             this.splitContainer.Panel1.Controls.Add(this.jobListControl);
+            // 
+            // splitContainer.Panel2
+            // 
             this.splitContainer.Panel2.Controls.Add(this.txtMessages);
-            this.splitContainer.Size = new Size(0x2b4, 0x179);
-            this.splitContainer.SplitterDistance = 0x11b;
+            this.splitContainer.Size = new System.Drawing.Size(692, 377);
+            this.splitContainer.SplitterDistance = 283;
             this.splitContainer.TabIndex = 4;
+            // 
+            // panel1
+            // 
             this.panel1.Controls.Add(this.lblUrl);
             this.panel1.Controls.Add(this.btnAddUrl);
             this.panel1.Controls.Add(this.txtUrl);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new Point(0, 0x102);
+            this.panel1.Location = new System.Drawing.Point(0, 258);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new Size(0x2b4, 0x19);
+            this.panel1.Size = new System.Drawing.Size(692, 25);
             this.panel1.TabIndex = 1;
+            // 
+            // lblUrl
+            // 
             this.lblUrl.AutoSize = true;
-            this.lblUrl.Location = new Point(9, 7);
+            this.lblUrl.Location = new System.Drawing.Point(9, 7);
             this.lblUrl.Name = "lblUrl";
-            this.lblUrl.Size = new Size(0x29, 13);
+            this.lblUrl.Size = new System.Drawing.Size(41, 13);
             this.lblUrl.TabIndex = 2;
             this.lblUrl.Text = "Url/File";
-            this.btnAddUrl.Anchor = System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Top;
+            // 
+            // btnAddUrl
+            // 
+            this.btnAddUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddUrl.Enabled = false;
-            this.btnAddUrl.Location = new Point(0x25d, 2);
+            this.btnAddUrl.Location = new System.Drawing.Point(605, 2);
             this.btnAddUrl.Name = "btnAddUrl";
-            this.btnAddUrl.Size = new Size(0x4b, 0x17);
+            this.btnAddUrl.Size = new System.Drawing.Size(75, 23);
             this.btnAddUrl.TabIndex = 1;
             this.btnAddUrl.Text = "Add";
             this.btnAddUrl.UseVisualStyleBackColor = true;
-            this.btnAddUrl.Click += new EventHandler(this.btnAddUrl_Click);
-            this.txtUrl.Anchor = System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Top;
-            this.txtUrl.Location = new Point(0x38, 4);
+            this.btnAddUrl.Click += new System.EventHandler(this.btnAddUrl_Click);
+            // 
+            // txtUrl
+            // 
+            this.txtUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUrl.Location = new System.Drawing.Point(56, 4);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new Size(0x21f, 20);
+            this.txtUrl.Size = new System.Drawing.Size(543, 20);
             this.txtUrl.TabIndex = 0;
-            this.toolTipControl.SetToolTip(this.txtUrl, "Enter a local file url to create an upload job, \r\nor a remote http(s) url to create a new download job.");
-            this.txtUrl.TextChanged += new EventHandler(this.txtUrl_TextChanged);
+            this.toolTipControl.SetToolTip(this.txtUrl, "Enter a local file url to create an upload job, \r\nor a remote http(s) url to crea" +
+        "te a new download job.");
+            this.txtUrl.TextChanged += new System.EventHandler(this.txtUrl_TextChanged);
+            // 
+            // jobListControl
+            // 
             this.jobListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.jobListControl.Location = new Point(0, 0);
+            this.jobListControl.Location = new System.Drawing.Point(0, 0);
             this.jobListControl.Name = "jobListControl";
-            this.jobListControl.Size = new Size(0x2b4, 0x11b);
+            this.jobListControl.Size = new System.Drawing.Size(692, 283);
             this.jobListControl.TabIndex = 0;
-            base.AcceptButton = this.btnAddUrl;
-            base.AutoScaleDimensions = new SizeF(6f, 13f);
-            base.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            base.ClientSize = new Size(0x2b4, 0x18f);
+            // 
+            // MainForm
+            // 
+            this.AcceptButton = this.btnAddUrl;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(692, 399);
             this.ContextMenuStrip = this.ctxMainForm;
-            base.Controls.Add(this.splitContainer);
-            base.Controls.Add(this.statMainForm);
-            base.Icon = (Icon)manager.GetObject("$this.Icon");
-            base.Name = "MainForm";
+            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.statMainForm);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "MainForm";
             this.Text = "SharpBITS";
-            base.Resize += new EventHandler(this.MainForm_Resize);
-            base.FormClosing += new FormClosingEventHandler(this.MainForm_FormClosing);
-            base.KeyUp += new KeyEventHandler(this.MainForm_KeyUp);
-            base.Load += new EventHandler(this.Form_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.ctxMenuSystray.ResumeLayout(false);
             this.ctxStatusBar.ResumeLayout(false);
-            this.actlMain.EndInit();
             this.statMainForm.ResumeLayout(false);
             this.statMainForm.PerformLayout();
             this.ctxMainForm.ResumeLayout(false);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             this.splitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            base.ResumeLayout(false);
-            base.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

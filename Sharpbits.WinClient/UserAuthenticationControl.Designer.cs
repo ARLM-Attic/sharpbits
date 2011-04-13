@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Crad.Windows.Forms.Actions;
-using System.Drawing;
+﻿using System.Windows.Forms;
 
 namespace SharpBits.WinClient
 {
@@ -36,6 +30,7 @@ namespace SharpBits.WinClient
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbAuthScheme = new System.Windows.Forms.GroupBox();
             this.rbAuthSchemePassport = new System.Windows.Forms.RadioButton();
             this.rbAuthSchemeNegotiate = new System.Windows.Forms.RadioButton();
@@ -50,18 +45,16 @@ namespace SharpBits.WinClient
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.tbUserName = new System.Windows.Forms.TextBox();
             this.lvCredentials = new System.Windows.Forms.ListView();
-            this.clhAuthTarget = new System.Windows.Forms.ColumnHeader();
-            this.clhAuthScheme = new System.Windows.Forms.ColumnHeader();
-            this.clhAuthUser = new System.Windows.Forms.ColumnHeader();
+            this.clhAuthTarget = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clhAuthScheme = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clhAuthUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.actlUserAuthentication = new Crad.Windows.Forms.Actions.ActionList();
-            this.actAddCredentials = new Crad.Windows.Forms.Actions.Action();
             this.btnAddCredentials = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbAuthScheme.SuspendLayout();
             this.gbAuthTarget.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.actlUserAuthentication)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -216,8 +209,8 @@ namespace SharpBits.WinClient
             // 
             // lvCredentials
             // 
-            this.lvCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvCredentials.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clhAuthTarget,
             this.clhAuthScheme,
@@ -248,8 +241,8 @@ namespace SharpBits.WinClient
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.69072F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.30928F));
@@ -263,31 +256,21 @@ namespace SharpBits.WinClient
             this.tableLayoutPanel1.Size = new System.Drawing.Size(506, 142);
             this.tableLayoutPanel1.TabIndex = 18;
             // 
-            // actlUserAuthentication
-            // 
-            this.actlUserAuthentication.Actions.Add(this.actAddCredentials);
-            this.actlUserAuthentication.ContainerControl = this;
-            // 
-            // actAddCredentials
-            // 
-            this.actAddCredentials.Text = "Add";
-            this.actAddCredentials.ToolTipText = "Adds the current credentials to the list";
-            this.actAddCredentials.Execute += new System.EventHandler(this.actAddCredentials_Execute);
-            // 
             // btnAddCredentials
             // 
-            this.actlUserAuthentication.SetAction(this.btnAddCredentials, this.actAddCredentials);
             this.btnAddCredentials.Location = new System.Drawing.Point(429, 16);
             this.btnAddCredentials.Name = "btnAddCredentials";
             this.btnAddCredentials.Size = new System.Drawing.Size(74, 23);
             this.btnAddCredentials.TabIndex = 20;
             this.btnAddCredentials.Text = "Add";
+            this.toolTip.SetToolTip(this.btnAddCredentials, "Adds the current credentials to the list");
             this.btnAddCredentials.UseVisualStyleBackColor = true;
+            this.btnAddCredentials.Click += new System.EventHandler(this.btnAddCredentials_Click);
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -319,7 +302,6 @@ namespace SharpBits.WinClient
             this.gbAuthTarget.ResumeLayout(false);
             this.gbAuthTarget.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.actlUserAuthentication)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
@@ -327,6 +309,8 @@ namespace SharpBits.WinClient
         }
 
         #endregion
+
+        private ToolTip toolTip;
 
     }
 }

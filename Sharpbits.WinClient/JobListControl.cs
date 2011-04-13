@@ -1,34 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Crad.Windows.Forms.Actions;
-using System.ComponentModel;
-using SharpBits.Base;
-using SharpBits.WinClient.Controls;
-using SharpBits.WinClient.Properties;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
+using SharpBits.Base;
+using SharpBits.WinClient.Controls;
+using SharpBits.WinClient.Properties;
 
 namespace SharpBits.WinClient
 {
     public partial class JobListControl : UserControl
     {
         // Fields
-        private Crad.Windows.Forms.Actions.Action actAddDownloadJob;
-        private Crad.Windows.Forms.Actions.Action actAddUploadJob;
-        private Crad.Windows.Forms.Actions.Action actCancel;
-        private Crad.Windows.Forms.Actions.Action actComplete;
-        private Crad.Windows.Forms.Actions.Action actJobProperties;
-        private ActionList actlJobList;
-        private PasteAction actPasteUrl;
-        private Crad.Windows.Forms.Actions.Action actRefresh;
-        private Crad.Windows.Forms.Actions.Action actResume;
-        internal Crad.Windows.Forms.Actions.Action actShowAllJobs;
-        private Crad.Windows.Forms.Actions.Action actSuspend;
         private ColumnHeader clhBytes;
         private ColumnHeader clhFiles;
         private ColumnHeader clhJobName;
@@ -36,7 +21,7 @@ namespace SharpBits.WinClient
         private ColumnHeader clhProgress;
         private ToolStripComboBox ctxdlPriority;
         private ContextMenuStrip ctxJobControl;
-        private ToolStripMenuItem ctxJobOwnerSettings;
+        private ToolStripMenuItem ctxmiJobOwnerSettings;
         private ToolStripMenuItem ctxmiaddDownload;
         private ToolStripMenuItem ctxmiAddDownloads;
         private ToolStripMenuItem ctxmiAddUpload;
@@ -54,10 +39,13 @@ namespace SharpBits.WinClient
         private ImageList imglDirection;
         private JobWrapperCollection jobWrappers = new JobWrapperCollection();
         private BitsListView lvJobList;
-        private BitsManager manager;
+        private BitsManager bitsManager;
         private readonly int textDelta;
         private JobMessageLevelCallback notificationEvent;
         private EventHandler onJobListOwnerChanged;
+        private Image jobOwnerImage;
+        private string jobOwnerTooltip;
+        private string jobOwnerText;
 
         // Events
         internal event JobMessageLevelCallback NotificationEvent
@@ -102,53 +90,7 @@ namespace SharpBits.WinClient
             this.ctxdlPriority.EndUpdate();
         }
 
-        private void actAddDownloadJob_Execute(object sender, EventArgs e)
-        {
-            this.CreateNewJob(JobType.Download, null);
-        }
-
-        private void actAddUploadJob_Execute(object sender, EventArgs e)
-        {
-            this.CreateNewJob(JobType.Upload, null);
-        }
-
-        private void actCancel_Execute(object sender, EventArgs e)
-        {
-            if (this.lvJobList.SelectedItems.Count == 1)
-            {
-                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
-                BitsJob bitsJob = tag.BitsJob;
-                if (((MessageBox.Show(string.Format("Are you sure to delete job '{0}''", bitsJob.DisplayName), "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) && (bitsJob.State != JobState.Acknowledged)) && (bitsJob.State != JobState.Cancelled))
-                {
-                    bitsJob.Cancel();
-                }
-                this.ControlsFromJobState();
-            }
-        }
-
-        private void actComplete_Execute(object sender, EventArgs e)
-        {
-            if (this.lvJobList.SelectedItems.Count == 1)
-            {
-                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
-                BitsJob bitsJob = tag.BitsJob;
-                if ((((bitsJob.JobType == JobType.Download) && (bitsJob.State != JobState.Acknowledged)) && (bitsJob.State != JobState.Cancelled)) || ((bitsJob.JobType == JobType.Upload) && (bitsJob.State == JobState.Transferred)))
-                {
-                    bitsJob.Complete();
-                }
-                this.ControlsFromJobState();
-            }
-        }
-
-        private void actJobProperties_Execute(object sender, EventArgs e)
-        {
-            if (this.lvJobList.SelectedItems.Count == 1)
-            {
-                this.ShowJobDetails(this.lvJobList.SelectedItems[0].Tag as JobWrapper, false);
-            }
-        }
-
-        private void actPasteUrl_Execute(object sender, EventArgs e)
+        public void PasteUrl()
         {
             string[] strArray;
             JobType jobType = CopyPasteHandler.GetJobType(out strArray);
@@ -161,50 +103,6 @@ namespace SharpBits.WinClient
         private void actRefresh_Execute(object sender, EventArgs e)
         {
             this.UpdateControl();
-        }
-
-        private void actResume_Execute(object sender, EventArgs e)
-        {
-            if (this.lvJobList.SelectedItems.Count == 1)
-            {
-                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
-                BitsJob bitsJob = tag.BitsJob;
-                if ((bitsJob.State != JobState.Acknowledged) && (bitsJob.State != JobState.Cancelled))
-                {
-                    bitsJob.Resume();
-                }
-                this.ControlsFromJobState();
-            }
-        }
-
-        private void actShowAllJobs_Execute(object sender, EventArgs e)
-        {
-            bool allJobs = !Settings.Default.ShowAllJobs;
-            try
-            {
-                this.ShowJobs(allJobs);
-                this.UpdateControl();
-            }
-            catch
-            {
-                allJobs = false;
-                this.ShowJobs(allJobs);
-                this.UpdateControl();
-            }
-        }
-
-        private void actSuspend_Execute(object sender, EventArgs e)
-        {
-            if (this.lvJobList.SelectedItems.Count == 1)
-            {
-                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
-                BitsJob bitsJob = tag.BitsJob;
-                if ((bitsJob.State != JobState.Acknowledged) && (bitsJob.State != JobState.Cancelled))
-                {
-                    bitsJob.Suspend();
-                }
-                this.ControlsFromJobState();
-            }
         }
 
         public void AddFile(string url)
@@ -268,106 +166,106 @@ namespace SharpBits.WinClient
             }
             if (bitsJob == null)
             {
-                this.actCancel.Visible = false;
-                this.actComplete.Visible = false;
-                this.actSuspend.Visible = false;
-                this.actResume.Visible = false;
+                this.ctxmiCancel.Visible = false;
+                this.ctxmiComplete.Visible = false;
+                this.ctxmiSuspend.Visible = false;
+                this.ctxmiResume.Visible = false;
                 this.ctxdlPriority.Visible = false;
                 this.ctxmiPriorityMap.Visible = false;
-                this.actJobProperties.Visible = false;
+                this.ctxmiJobProperties.Visible = false;
                 this.ctxsepJob2.Visible = this.ctxsepJob3.Visible = false;
             }
             else
             {
-                this.actJobProperties.Visible = true;
-                this.actCancel.Visible = true;
-                this.actComplete.Visible = true;
-                this.actSuspend.Visible = true;
-                this.actResume.Visible = true;
+                this.ctxmiJobProperties.Visible = true;
+                this.ctxmiCancel.Visible = true;
+                this.ctxmiComplete.Visible = true;
+                this.ctxmiSuspend.Visible = true;
+                this.ctxmiResume.Visible = true;
                 this.ctxmiPriorityMap.Visible = true;
                 this.ctxdlPriority.Visible = true;
                 this.ctxsepJob2.Visible = this.ctxsepJob3.Visible = true;
                 switch (bitsJob.State)
                 {
                     case JobState.Queued:
-                        this.actResume.Enabled = true;
-                        this.actSuspend.Enabled = true;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = true;
+                        this.ctxmiSuspend.Enabled = true;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.Connecting:
-                        this.actResume.Enabled = false;
-                        this.actSuspend.Enabled = true;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = false;
+                        this.ctxmiSuspend.Enabled = true;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.Transferring:
-                        this.actResume.Enabled = false;
-                        this.actSuspend.Enabled = true;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = false;
+                        this.ctxmiSuspend.Enabled = true;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.Suspended:
-                        this.actResume.Enabled = true;
-                        this.actSuspend.Enabled = false;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = true;
+                        this.ctxmiSuspend.Enabled = false;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.Error:
-                        this.actResume.Enabled = true;
-                        this.actSuspend.Enabled = true;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = true;
+                        this.ctxmiSuspend.Enabled = true;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.TransientError:
-                        this.actResume.Enabled = true;
-                        this.actSuspend.Enabled = false;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = true;
+                        this.ctxmiSuspend.Enabled = false;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.Transferred:
-                        this.actResume.Enabled = false;
-                        this.actSuspend.Enabled = false;
-                        this.actCancel.Enabled = true;
-                        this.actComplete.Enabled = true;
+                        this.ctxmiResume.Enabled = false;
+                        this.ctxmiSuspend.Enabled = false;
+                        this.ctxmiCancel.Enabled = true;
+                        this.ctxmiComplete.Enabled = true;
                         this.ctxdlPriority.Enabled = true;
-                        this.actJobProperties.Enabled = true;
+                        this.ctxmiJobProperties.Enabled = true;
                         break;
 
                     case JobState.Acknowledged:
-                        this.actCancel.Enabled = false;
-                        this.actComplete.Enabled = false;
-                        this.actSuspend.Enabled = false;
-                        this.actResume.Enabled = false;
+                        this.ctxmiCancel.Enabled = false;
+                        this.ctxmiComplete.Enabled = false;
+                        this.ctxmiSuspend.Enabled = false;
+                        this.ctxmiResume.Enabled = false;
                         this.ctxdlPriority.Enabled = false;
-                        this.actJobProperties.Enabled = false;
+                        this.ctxmiJobProperties.Enabled = false;
                         break;
 
-                    case JobState.Cancelled:
-                        this.actCancel.Enabled = false;
-                        this.actComplete.Enabled = false;
-                        this.actSuspend.Enabled = false;
-                        this.actResume.Enabled = false;
+                    case JobState.Canceled:
+                        this.ctxmiCancel.Enabled = false;
+                        this.ctxmiComplete.Enabled = false;
+                        this.ctxmiSuspend.Enabled = false;
+                        this.ctxmiResume.Enabled = false;
                         this.ctxdlPriority.Enabled = false;
-                        this.actJobProperties.Enabled = false;
+                        this.ctxmiJobProperties.Enabled = false;
                         break;
                 }
                 this.ctxdlPriority.SelectedIndexChanged -= new EventHandler(this.ctxdlPriority_SelectedIndexChanged);
@@ -379,7 +277,7 @@ namespace SharpBits.WinClient
         private void CreateNewJob(JobType jobType, string[] files)
         {
             BitsJob job = null;
-            job = this.manager.CreateJob(jobType.ToString(), jobType);
+            job = this.bitsManager.CreateJob(jobType.ToString(), jobType);
             this.lvJobList.Items[job.JobId.ToString()].Selected = true;
             JobWrapper wrapper = this.jobWrappers[job.JobId];
             wrapper.FileList = files;
@@ -426,21 +324,21 @@ namespace SharpBits.WinClient
             listItem.Tag = jobWrapper;
         }
 
-        public void InitializeControl(BitsManager manager)
+        public void InitializeControl(BitsManager bitsManager)
         {
-            if (manager == null)
+            if (bitsManager == null)
             {
                 base.Enabled = false;
             }
             else
             {
-                this.manager = manager;
+                this.bitsManager = bitsManager;
                 Settings.Default.ShowAllJobs = !Settings.Default.ShowAllJobs;
-                this.actShowAllJobs.DoExecute();
-                manager.OnJobError += new EventHandler<ErrorNotificationEventArgs>(this.manager_OnJobErrorEvent);
-                manager.OnJobModified += new EventHandler<NotificationEventArgs>(this.manager_OnJobModifiedEvent);
-                manager.OnJobTransferred += new EventHandler<NotificationEventArgs>(this.manager_OnJobTransferredEvent);
-                manager.OnJobAdded += new EventHandler<NotificationEventArgs>(this.manager_OnJobAdded);
+                this.ShowAllJobs();
+                bitsManager.OnJobError += new EventHandler<ErrorNotificationEventArgs>(this.manager_OnJobErrorEvent);
+                bitsManager.OnJobModified += new EventHandler<NotificationEventArgs>(this.manager_OnJobModifiedEvent);
+                bitsManager.OnJobTransferred += new EventHandler<NotificationEventArgs>(this.manager_OnJobTransferredEvent);
+                bitsManager.OnJobAdded += new EventHandler<NotificationEventArgs>(this.manager_OnJobAdded);
             }
         }
 
@@ -455,7 +353,7 @@ namespace SharpBits.WinClient
 
         private void lvJobList_DoubleClick(object sender, EventArgs e)
         {
-            this.actJobProperties.DoExecute();
+            this.ctxmiJobProperties_Click(sender, e);
         }
 
         private void lvJobList_DragDrop(object sender, DragEventArgs e)
@@ -522,7 +420,7 @@ namespace SharpBits.WinClient
                 windowText = Settings.Default.ProgressCompletedColor;
                 prototype = new Font(prototype, FontStyle.Strikeout);
             }
-            else if (bitsJob.State == JobState.Cancelled)
+            else if (bitsJob.State == JobState.Canceled)
             {
                 if (e.Item.Selected)
                 {
@@ -605,7 +503,7 @@ namespace SharpBits.WinClient
             {
                 if (keyCode == Keys.Delete)
                 {
-                    this.actCancel.DoExecute();
+                    this.ctxmiCancel_Click(sender, e);
                     return;
                 }
                 if (keyCode != Keys.V)
@@ -616,12 +514,12 @@ namespace SharpBits.WinClient
             }
             else
             {
-                this.actJobProperties.DoExecute();
+                this.ctxmiJobProperties_Click(sender, e);
                 return;
             }
             if (e.Control)
             {
-                this.actPasteUrl.DoExecute();
+                this.PasteUrl();
             }
         }
 
@@ -641,7 +539,7 @@ namespace SharpBits.WinClient
             {
                 if (!this.jobWrappers.ContainsKey(e.Job.JobId))
                 {
-                    this.jobWrappers[e.Job.JobId] = new JobWrapper(this.manager, e.Job.JobId);
+                    this.jobWrappers[e.Job.JobId] = new JobWrapper(this.bitsManager, e.Job.JobId);
                     if (e.Job.NotificationFlags != (NotificationFlags.JobModified | NotificationFlags.JobErrorOccured | NotificationFlags.JobTransferred))
                     {
                         e.Job.NotificationFlags = NotificationFlags.JobModified | NotificationFlags.JobErrorOccured | NotificationFlags.JobTransferred;
@@ -714,11 +612,6 @@ namespace SharpBits.WinClient
             }
         }
 
-        public void PasteUrl()
-        {
-            this.actPasteUrl.DoExecute();
-        }
-
         public void ShowJobDetails(JobWrapper wrapper, bool newJob)
         {
             if (wrapper != null)
@@ -739,14 +632,20 @@ namespace SharpBits.WinClient
             Settings.Default.Save();
             if (allJobs)
             {
-                this.actShowAllJobs.Image = Resources.AllUsers;
-                this.actShowAllJobs.Text = "Display Jobs for current user";
+                this.jobOwnerImage = Resources.AllUsers;
+                this.jobOwnerTooltip = "Display Jobs for current user";
+                this.jobOwnerText = "Show Current User Jobs";
             }
             else
             {
-                this.actShowAllJobs.Image = Resources.CurrentUser;
-                this.actShowAllJobs.Text = "Display Jobs for all users";
+                this.jobOwnerImage = Resources.CurrentUser;
+                this.jobOwnerTooltip = "Display Jobs for all users";
+                this.jobOwnerText = "Show All User Jobs";
             }
+            this.ctxmiJobOwnerSettings.Image = this.jobOwnerImage;
+            this.ctxmiJobOwnerSettings.ToolTipText = this.jobOwnerTooltip;
+            this.ctxmiJobOwnerSettings.Text = this.jobOwnerText;
+
             if (this.onJobListOwnerChanged != null)
             {
                 this.onJobListOwnerChanged(this, new EventArgs());
@@ -756,9 +655,9 @@ namespace SharpBits.WinClient
         public void UpdateControl()
         {
             object tag = null;
-            if (this.manager != null)
+            if (this.bitsManager != null)
             {
-                this.manager.EnumJobs(Settings.Default.ShowAllJobs ? JobOwner.AllUsers : JobOwner.CurrentUser);
+                this.bitsManager.EnumJobs(Settings.Default.ShowAllJobs ? JobOwner.AllUsers : JobOwner.CurrentUser);
                 foreach (ListViewItem item in this.lvJobList.Items)
                 {
                     if (item.Selected)
@@ -820,7 +719,7 @@ namespace SharpBits.WinClient
                 {
                     foreach (JobWrapper wrapper in jobCache)
                     {
-                        wrapper.manager = this.manager;
+                        wrapper.manager = this.bitsManager;
                         wrappers[wrapper.JobId] = wrapper;
                     }
                 }
@@ -837,7 +736,7 @@ namespace SharpBits.WinClient
                 }
             }
             this.jobWrappers.Clear();
-            foreach (KeyValuePair<Guid, BitsJob> pair2 in this.manager.Jobs)
+            foreach (KeyValuePair<Guid, BitsJob> pair2 in this.bitsManager.Jobs)
             {
                 if (wrappers.ContainsKey(pair2.Key))
                 {
@@ -845,7 +744,7 @@ namespace SharpBits.WinClient
                 }
                 else
                 {
-                    this.jobWrappers[pair2.Key] = new JobWrapper(this.manager, pair2.Key);
+                    this.jobWrappers[pair2.Key] = new JobWrapper(this.bitsManager, pair2.Key);
                 }
                 if (pair2.Value.NotificationFlags != (NotificationFlags.JobModified | NotificationFlags.JobErrorOccured | NotificationFlags.JobTransferred))
                 {
@@ -863,10 +762,113 @@ namespace SharpBits.WinClient
         // Properties
         public Image JobListOwnerImage
         {
-            get
+            get { return this.jobOwnerImage; }
+        }
+
+        public string JobListOwnerText
+        {
+            get { return this.jobOwnerText; }
+        }
+
+
+        private void ctxmiJobProperties_Click(object sender, EventArgs e)
+        {
+            if (this.lvJobList.SelectedItems.Count == 1)
             {
-                return this.actShowAllJobs.Image;
+                this.ShowJobDetails(this.lvJobList.SelectedItems[0].Tag as JobWrapper, false);
             }
+        }
+
+        private void ctxmiComplete_Click(object sender, EventArgs e)
+        {
+            if (this.lvJobList.SelectedItems.Count == 1)
+            {
+                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
+                BitsJob bitsJob = tag.BitsJob;
+                if ((((bitsJob.JobType == JobType.Download) && (bitsJob.State != JobState.Acknowledged)) && (bitsJob.State != JobState.Canceled)) || ((bitsJob.JobType == JobType.Upload) && (bitsJob.State == JobState.Transferred)))
+                {
+                    bitsJob.Complete();
+                }
+                this.ControlsFromJobState();
+            }
+        }
+
+        private void ctxmiSuspend_Click(object sender, EventArgs e)
+        {
+            if (this.lvJobList.SelectedItems.Count == 1)
+            {
+                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
+                BitsJob bitsJob = tag.BitsJob;
+                if ((bitsJob.State != JobState.Acknowledged) && (bitsJob.State != JobState.Canceled))
+                {
+                    bitsJob.Suspend();
+                }
+                this.ControlsFromJobState();
+            }
+        }
+
+        private void ctxmiCancel_Click(object sender, EventArgs e)
+        {
+            if (this.lvJobList.SelectedItems.Count == 1)
+            {
+                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
+                BitsJob bitsJob = tag.BitsJob;
+                if (((MessageBox.Show(string.Format("Are you sure to delete job '{0}''", bitsJob.DisplayName), "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) && (bitsJob.State != JobState.Acknowledged)) && (bitsJob.State != JobState.Canceled))
+                {
+                    bitsJob.Cancel();
+                }
+                this.ControlsFromJobState();
+            }
+        }
+
+        private void ctxmiResume_Click(object sender, EventArgs e)
+        {
+            if (this.lvJobList.SelectedItems.Count == 1)
+            {
+                JobWrapper tag = this.lvJobList.SelectedItems[0].Tag as JobWrapper;
+                BitsJob bitsJob = tag.BitsJob;
+                if ((bitsJob.State != JobState.Acknowledged) && (bitsJob.State != JobState.Canceled))
+                {
+                    bitsJob.Resume();
+                }
+                this.ControlsFromJobState();
+            }
+        }
+
+        private void ctxmiaddDownload_Click(object sender, EventArgs e)
+        {
+            this.CreateNewJob(JobType.Download, null);
+        }
+
+        private void ctxmiAddUpload_Click(object sender, EventArgs e)
+        {
+            this.CreateNewJob(JobType.Upload, null);
+        }
+
+        public void ShowAllJobs()
+        {
+            bool allJobs = !Settings.Default.ShowAllJobs;
+            try
+            {
+                this.ShowJobs(allJobs);
+                this.UpdateControl();
+            }
+            catch
+            {
+                allJobs = false;
+                this.ShowJobs(allJobs);
+                this.UpdateControl();
+            }
+        }
+
+        private void ctxmiJobOwnerSettings_Click(object sender, EventArgs e)
+        {
+            this.ShowAllJobs();
+        }
+
+        private void ctxmiRefresh_Click(object sender, EventArgs e)
+        {
+            this.UpdateControl();
         }
     }
 

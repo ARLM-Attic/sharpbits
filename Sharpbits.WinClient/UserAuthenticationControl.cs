@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SharpBits.WinClient.Controls;
-using Crad.Windows.Forms.Actions;
 using System.Windows.Forms;
 using System.ComponentModel;
 using SharpBits.WinClient.Properties;
@@ -15,8 +14,6 @@ namespace SharpBits.WinClient
     public partial class UserAuthenticationControl : JobControl
     {
         // Fields
-        private Crad.Windows.Forms.Actions.Action actAddCredentials;
-        private ActionList actlUserAuthentication;
         private Button btnAddCredentials;
         private ColumnHeader clhAuthScheme;
         private ColumnHeader clhAuthTarget;
@@ -77,43 +74,16 @@ namespace SharpBits.WinClient
             this.tbUserName.AutoCompleteSource = AutoCompleteSource.CustomSource;
             this.tbUserName.AutoCompleteCustomSource = strings;
             this.tbUserName.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.actAddCredentials.Enabled = false;
+            this.btnAddCredentials.Enabled = false;
             if (Settings.Default.CredentialsCache == null)
             {
                 Settings.Default.CredentialsCache = new CredentialsCache();
             }
         }
 
-        private void actAddCredentials_Execute(object sender, EventArgs e)
-        {
-            BitsCredentials credentials = new BitsCredentials();
-            CredentialsCacheItem item = this.CredentialsCacheItemFromUIValues();
-            credentials.UserName = this.tbUserName.Text;
-            credentials.Password = this.tbPassword.Text;
-            credentials.AuthenticationTarget = item.AuthenticationTarget;
-            credentials.AuthenticationScheme = item.AuthenticationScheme;
-            base.wrapper.BitsJob.AddCredentials(credentials);
-            if (this.onCredentialsAdded != null)
-            {
-                this.onCredentialsAdded(this, credentials);
-            }
-            Settings.Default.CredentialsCache.Add(item);
-            StringBuilder builder = new StringBuilder();
-            builder.Append(this.tbUserName.Text + ";");
-            foreach (string str in this.tbUserName.AutoCompleteCustomSource)
-            {
-                builder.Append(str + ";");
-            }
-            Settings.Default.UserNames = builder.ToString();
-            Settings.Default.Save();
-            this.UpdateCredentialsListview();
-            this.actAddCredentials.Enabled = false;
-            this.tbPassword.Clear();
-        }
-
         private void CheckAddAllowed(object sender, EventArgs e)
         {
-            this.actAddCredentials.Enabled = false;
+            this.btnAddCredentials.Enabled = false;
             if ((this.tbPassword.Text.Length != 0) && (this.tbUserName.Text.Length != 0))
             {
                 CredentialsCacheItem item = this.CredentialsCacheItemFromUIValues();
@@ -124,7 +94,7 @@ namespace SharpBits.WinClient
                         return;
                     }
                 }
-                this.actAddCredentials.Enabled = true;
+                this.btnAddCredentials.Enabled = true;
             }
         }
 
@@ -225,6 +195,33 @@ namespace SharpBits.WinClient
                 }
             }
             this.lvCredentials.EndUpdate();
+        }
+
+        private void btnAddCredentials_Click(object sender, EventArgs e)
+        {
+            BitsCredentials credentials = new BitsCredentials();
+            CredentialsCacheItem item = this.CredentialsCacheItemFromUIValues();
+            credentials.UserName = this.tbUserName.Text;
+            credentials.Password = this.tbPassword.Text;
+            credentials.AuthenticationTarget = item.AuthenticationTarget;
+            credentials.AuthenticationScheme = item.AuthenticationScheme;
+            base.wrapper.BitsJob.AddCredentials(credentials);
+            if (this.onCredentialsAdded != null)
+            {
+                this.onCredentialsAdded(this, credentials);
+            }
+            Settings.Default.CredentialsCache.Add(item);
+            StringBuilder builder = new StringBuilder();
+            builder.Append(this.tbUserName.Text + ";");
+            foreach (string str in this.tbUserName.AutoCompleteCustomSource)
+            {
+                builder.Append(str + ";");
+            }
+            Settings.Default.UserNames = builder.ToString();
+            Settings.Default.Save();
+            this.UpdateCredentialsListview();
+            this.btnAddCredentials.Enabled = false;
+            this.tbPassword.Clear();
         }
     }
 
