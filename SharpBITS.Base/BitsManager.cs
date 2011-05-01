@@ -29,7 +29,7 @@ namespace SharpBits.Base
         {
             // Set threading apartment
             System.Threading.Thread.CurrentThread.TrySetApartmentState(ApartmentState.STA);
-            NativeMethods.CoInitializeSecurity(IntPtr.Zero, -1, IntPtr.Zero, IntPtr.Zero, RpcAuthnLevel.Connect, RpcImpLevel.Impersonate, IntPtr.Zero, EoAuthnCap.None, IntPtr.Zero); 
+            int hResult = NativeMethods.CoInitializeSecurity(IntPtr.Zero, -1, IntPtr.Zero, IntPtr.Zero, RpcAuthnLevel.Connect, RpcImpLevel.Impersonate, IntPtr.Zero, EoAuthnCap.None, IntPtr.Zero); 
 
             this.manager = new BackgroundCopyManager() as IBackgroundCopyManager;
             this.jobs = new BitsJobs(this); // will be set correctly later after initialization
@@ -213,12 +213,9 @@ namespace SharpBits.Base
         }
 
         #region util methods
-        public BitsVersion BitsVersion
+        public static BitsVersion BitsVersion
         {
-            get
-            {
-                return Utils.BITSVersion;
-            }
+            get { return Utils.BITSVersion; }
         }
 
         #endregion

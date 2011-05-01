@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace SharpBits.Base
 {
@@ -143,7 +144,7 @@ namespace SharpBits.Base
                         this.job2.GetNotifyCmdLine(out program, out parameters);
                         if (value != null)  //the command line program should be passed as first parameter, enclosed by quotes
                         {
-                            value = string.Format("\"{0}\" {1}", program, value);
+                            value = string.Format(CultureInfo.InvariantCulture, "\"{0}\" {1}", program, value);
                         }
                         this.job2.SetNotifyCmdLine(program, value);
                     }
@@ -260,9 +261,9 @@ namespace SharpBits.Base
                 {
                     if (this.job2 != null)
                     {
-                    BG_JOB_REPLY_PROGRESS replyProgress;
-                    this.job2.GetReplyProgress(out replyProgress);
-                    this.replyProgress = new JobReplyProgress(replyProgress);
+                    BG_JOB_REPLY_PROGRESS jobReplyProgress;
+                    this.job2.GetReplyProgress(out jobReplyProgress);
+                    this.replyProgress = new JobReplyProgress(jobReplyProgress);
                     }                
                     else
                     {

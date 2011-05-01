@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpBits.Base
 {
-    public partial class BitsJob : IDisposable
+    public partial class BitsJob: IDisposable
     {
         #region member fields
         private IBackgroundCopyJob job;
@@ -62,7 +62,7 @@ namespace SharpBits.Base
                     return displayName;
                 }
                 catch (COMException exception)
-                {
+                {                    
                     manager.PublishException(this, exception);
                     return string.Empty;
                 }
@@ -94,7 +94,7 @@ namespace SharpBits.Base
                     return description;
                 }
                 catch (COMException exception)
-                {
+                {                    
                     manager.PublishException(this, exception);
                     return string.Empty;
                 }
@@ -126,7 +126,7 @@ namespace SharpBits.Base
                     return owner;
                 }
                 catch (COMException exception)
-                {
+                {                    
                     manager.PublishException(this, exception);
                     return string.Empty;
                 }
@@ -138,7 +138,7 @@ namespace SharpBits.Base
         /// </summary>
         public string OwnerName
         {
-            get
+            get 
             {
                 try
                 {
@@ -166,7 +166,7 @@ namespace SharpBits.Base
                     this.job.GetPriority(out priority);
                 }
                 catch (COMException exception)
-                {
+                {                    
                     manager.PublishException(this, exception);
                 }
                 return (JobPriority)priority;
@@ -191,12 +191,12 @@ namespace SharpBits.Base
             {
                 try
                 {
-                    BG_JOB_PROGRESS progress;
-                    this.job.GetProgress(out progress);
-                    this.progress = new JobProgress(progress);
+                    BG_JOB_PROGRESS jobProgress;
+                    this.job.GetProgress(out jobProgress);
+                    this.progress = new JobProgress(jobProgress);
                 }
                 catch (COMException exception)
-                {
+                {                    
                     manager.PublishException(this, exception);
                 }
                 return this.progress;
@@ -212,7 +212,7 @@ namespace SharpBits.Base
                 this.files = new BitsFiles(this, fileList);
             }
             catch (COMException exception)
-            {
+            {                
                 manager.PublishException(this, exception);
             }
             return this.files;
@@ -355,7 +355,7 @@ namespace SharpBits.Base
                     this.job.GetState(out state);
                 }
                 catch (COMException exception)
-                {
+                {                    
                     manager.PublishException(this, exception);
                 }
                 return (JobState)state;
@@ -399,7 +399,7 @@ namespace SharpBits.Base
 
         public ProxySettings ProxySettings
         {
-            get
+            get 
             {
                 if (null == proxySettings)
                 {
@@ -416,7 +416,7 @@ namespace SharpBits.Base
                 this.job.Suspend();
             }
             catch (COMException exception)
-            {
+            {                
                 manager.PublishException(this, exception);
             }
         }
@@ -463,7 +463,7 @@ namespace SharpBits.Base
             {
                 this.job.TakeOwnership();
             }
-            catch (COMException exception)
+            catch (COMException exception) 
             {
                 manager.PublishException(this, exception);
             }

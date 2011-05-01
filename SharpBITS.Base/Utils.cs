@@ -106,11 +106,11 @@ namespace SharpBits.Base
         {
             long fileTime = 0;
             if (dateTime != DateTime.MinValue)      //Checking for MinValue
-                fileTime = dateTime.ToFileTime();
+                fileTime = dateTime.ToFileTime();    
             FILETIME resultingFileTime = new FILETIME();
             resultingFileTime.dwLowDateTime = (uint)(fileTime & 0xFFFFFFFF);
             resultingFileTime.dwHighDateTime = (uint)(fileTime >> 32);
-            return resultingFileTime;
+            return resultingFileTime; 
         }
 
         internal static DateTime FileTime2DateTime(FILETIME fileTime)

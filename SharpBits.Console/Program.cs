@@ -14,9 +14,9 @@ namespace SharpBitsConsole
 
             BitsManager manager = new BitsManager();
 
-            System.Console.WriteLine("Bits Version is {0}", manager.BitsVersion);
+            System.Console.WriteLine("Bits Version is {0}", BitsManager.BitsVersion);
 
-            if (manager.BitsVersion >= BitsVersion.Bits2_0)
+            if (BitsManager.BitsVersion >= BitsVersion.Bits2_0)
             {
                 //BitsJob newJob = manager.CreateJob("TestJob2", JobType.Download);
                 //Collection<FileRange> fileRanges = new Collection<FileRange>();
@@ -56,7 +56,7 @@ namespace SharpBitsConsole
                     System.Console.WriteLine("Bytes transfered: {0}", file.Progress.BytesTransferred.ToString());
                     System.Console.WriteLine("File Completed: {0}", file.Progress.Completed.ToString());
 
-                    if (manager.BitsVersion >= BitsVersion.Bits2_0)
+                    if (BitsManager.BitsVersion >= BitsVersion.Bits2_0)
                     {
                         System.Console.WriteLine("File Ranges for current job: {0}", file.FileRanges.Count.ToString());
                         foreach (FileRange range in file.FileRanges)
