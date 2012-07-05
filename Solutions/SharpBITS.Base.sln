@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Base", "..\SharpB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBITS.Console", "..\SharpBits.Console\SharpBITS.Console.csproj", "{F433606D-8C1F-4493-8C56-B180B86735CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{63607F42-13C7-4FDA-8C0C-51138CA5D0C1}"
+	ProjectSection(SolutionItems) = preProject
+		..\Solution Items\SharpBITS.2.0.0.nuspec = ..\Solution Items\SharpBITS.2.0.0.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 3
